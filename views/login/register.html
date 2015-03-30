@@ -1,0 +1,38 @@
+{% extends '../layouts/default.html' %}
+
+{% block content %}
+<div class="col-sm-2"></div>
+<div class="col-sm-8">
+    <h2>Register</h2>
+    
+	<form role="form" action="/register" method="post">
+    <div class="form-group">
+    	<label for="firstname">First Name:</label>
+        <input id="fn" type="text" name="fn" value="{{ fn }}" class="form-control" placeholder="Enter First Name"
+        pattern="^[a-zA-Z ,.'-]+$">
+    </div>
+    <div class="form-group">
+    	<label for="lastname">Last Name:</label>
+        <input id="ln" type="text" name="ln" value="{{ ln }}" class="form-control" placeholder="Enter Last Name"
+        pattern="^[a-zA-Z ,.'-]+$">
+    </div>
+    <div class="form-group">
+    	<label for="username">Email:</label>
+        <input id="username" type="text" name="un" value="{{ username }}"  class="form-control" 
+        placeholder="Enter email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+    </div>
+    <div class="form-group">
+    	<label for="password">Password:</label>
+                <input id="password" type="password" name="pw" class="form-control" 
+                placeholder="Enter Password"
+                 title="At least one number, one lowercase and one uppercase letter. Minimum 4 characters">
+    </div>
+    <div class="form-group">
+    	<label for="validate_password">Validate Password:</label>
+                <input id="validate_password" type="password" name="vpw" class="form-control" placeholder="Enter Password again">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>    
+ </div>
+ <div class="col-sm-2"></div>
+{% endblock %}
