@@ -36,23 +36,38 @@ exports.registerPost = function(req, res) {
     var pw = crypto.createHmac('sha1', new_salt).update(pwu).digest('hex');
     var created = dateutil.now();
     
-    var data = {first_name : fn,
-			last_name : ln,
-			email : un,
-			password: pw,
-			active:'1',
-			created:created,
-			modified:created,
-			last_login:created,
-			salt:new_salt};
+   //  var data = {first_name : fn,
+			// last_name : ln,
+			// email : un,
+			// password: pw,
+			// active:'1',
+			// created:created,
+			// modified:created,
+			// last_login:created,
+			// salt:new_salt};
     
-	mysql.queryDb('insert into users set ?',data,function(err,result){
+    var data={
+            username:un,
+            password:pw,
+            approved:1,
+            creationdate:created,
+            modifydate:created,
+            lastlogin:created,
+            salt:new_salt
+    };
+
+	mysql.queryDb('insert into userauthenticate set ?',data,function(err,result){
 		if(err) {
 			console.log(err);
 	        req.flash('error', 'Unable to create account.');
 	        res.redirect('/register');
 		} else {
-			mysql.queryDb('insert into user_profile_map set ?',{user_id: result.insertId,created: created},
+			mysql.queryDb('insert into userdetails set ?',{userid: result.insertId,firstname : fn,
+                lastname : ln,
+                email : un,
+                creationdate:created,
+                modifydate:created
+                },
 			function(err,result){
 				if(err) {
 					console.log(err);
@@ -91,7 +106,7 @@ exports.checkLogin = function(req, res, next) {
             req.session.userid=user.id;
             //console.log(new Date() + "|" + user.last_login + "|"+ moment() + "|" + new Date().toLocaleString());
             console.log(moment(user.last_login).format('LLL'));
-            mysql.queryDb('update users set ? where ?',[{last_login:new Date()},{id:user.id}],function(err,result){
+            mysql.queryDb('update userauthenticate set ? where ?',[{last_login:new Date()},{id:user.id}],function(err,result){
         		if(err) {
         			console.log(err);
         	        req.flash('error', 'Unable to create account.');

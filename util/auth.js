@@ -5,17 +5,19 @@ var crypto = require('crypto'),
 module.exports = function(passport) {
 
     passport.serializeUser(function(user, done) {
-    	console.log('serializeUser' + user.id + ":" + user.first_name);
-        done(null, user.id);
+    	console.log('serializeUser' + user.userid + ":" + user.username);
+        done(null, user.userid);
     });
 
     passport.deserializeUser(function(user_id, done) {
-    	mysql.queryDb('select * from users where id = ?',[user_id],function(err,rows){
+        console.log('deserializeUser');
+    	mysql.queryDb('select * from userauthenticate where userid = ?',[user_id],function(err,rows){
     		if(err) {
     			console.log('deserializeUser' + err);
     			return done(err);
     		} else {
-    			return done(null, rows[0]);
+                console.log('rows', rows[0]);
+    			return done(null, (typeof(rows[0]) != "undefined") ? rows[0] : false);
     		}
     	});
     });
@@ -24,19 +26,20 @@ module.exports = function(passport) {
         usernameField: 'un',
         passwordField: 'pw'
     },function(email, password, done) {
-    	mysql.queryDb('select * from users where email = ?',[email],function(err,rows){
-    		if(err) {
+    	mysql.queryDb('select * from userauthenticate where username = ?',[email],function(err,rows){
+        		if(err) {
     			console.log('use' + err);
     			return done(err);
     		} else {
     			if(rows==null || rows==''){
-    				console.log('deserializeUser' + err);
+    				console.log('   ' + err);
     				return done(null, false, { 'message': 'No user with this username and password exists.'});
     			} else {
 	    			var sa = rows[0].salt;
 	                var pw = rows[0].password;
 	                var upw = crypto.createHmac('sha1', sa).update(password).digest('hex');
 	                if(upw == pw) {
+                        console.log("Done");
 	                    return done(null, rows[0]);
 	                }
 	                return done(null, false, { 'message': 'Invalid password'});

@@ -24,12 +24,12 @@ saveEduDtls = function(req,res){
 			modified:created
 			};
     
-	mysql.queryDb('select * from profile_edudtls where profile_id=?',[profile_id],function(err,rows){
+	mysql.queryDb('select * from education where profile_id=?',[profile_id],function(err,rows){
 
 		if(!err){
 			if(rows==null || rows==''){
 				console.log('no userdtls');
-				mysql.queryDb('insert into profile_edudtls set ?',data,function(err,result){
+				mysql.queryDb('insert into education set ?',data,function(err,result){
 					if(err) {
 						console.log(err);
 						req.flash('error', 'Unable to save user details.');
@@ -74,7 +74,7 @@ updateEduDtls = function(req,res){
 			modified:modified
 			};
     
-	mysql.queryDb('update profile_edudtls set ? where profile_id =' + profile_id ,data,function(err,result){
+	mysql.queryDb('update education set ? where profile_id =' + profile_id ,data,function(err,result){
 		if(err) {
 			console.log(err);
 	        req.flash('error', 'Unable to update education details.');
@@ -89,7 +89,7 @@ updateEduDtls = function(req,res){
 
 getEduDtls=function(req,res){
 	
-	mysql.queryDb('select * from profile_edudtls where profile_id=?',[req.params.userid],function(err,rows){
+	mysql.queryDb('select * from education where profile_id=?',[req.params.userid],function(err,rows){
 
 		if(!err){
 			if(rows==null || rows==''){

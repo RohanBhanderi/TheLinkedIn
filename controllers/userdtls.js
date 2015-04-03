@@ -14,12 +14,12 @@ saveUserDtls = function(req,res){
 			created:created,
 			modified:created
 	};
-	mysql.queryDb('select * from profile_userdtls where profile_id=?',[profile_id],function(err,rows){
+	mysql.queryDb('select * from userdetails where userid=?',[profile_id],function(err,rows){
 
 		if(!err){
 			if(rows==null || rows==''){
 				console.log('no userdtls');
-				mysql.queryDb('insert into profile_userdtls set ?',data,function(err,result){
+				mysql.queryDb('insert into userdetails set ?',data,function(err,result){
 					if(err) {
 						console.log(err);
 						req.flash('error', 'Unable to save user details.');
@@ -55,7 +55,7 @@ updateUserDtls = function(req,res){
 			modified:modified
 	};
 
-	mysql.queryDb('update profile_userdtls set ? where profile_id =' + profile_id ,data,function(err,result){
+	mysql.queryDb('update userdetails set ? where userid =' + profile_id ,data,function(err,result){
 		if(err) {
 			console.error(e.stack);
 	        res.status(500).json(result);
@@ -69,7 +69,7 @@ updateUserDtls = function(req,res){
 
 getUserDtls=function(req,res){
 	//console.log("userid"+req.params.userid);
-	mysql.queryDb('select * from profile_userdtls where profile_id=?',[req.params.userid],function(err,rows){
+	mysql.queryDb('select * from userdetails where userid=?',[req.params.userid],function(err,rows){
 
 		if(!err){
 			if(rows==null || rows==''){

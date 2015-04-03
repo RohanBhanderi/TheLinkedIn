@@ -12,12 +12,12 @@ saveSkills = function(req,res){
 			created:created,
 			modified:created
 			};
-	mysql.queryDb('select * from profile_skills where profile_id=?',[profile_id],function(err,rows){
+	mysql.queryDb('select * from skills where profile_id=?',[profile_id],function(err,rows){
 
 		if(!err){
 			if(rows==null || rows==''){
 				console.log('no userdtls');
-				mysql.queryDb('insert into profile_skills set ?',data,function(err,result){
+				mysql.queryDb('insert into skills set ?',data,function(err,result){
 					if(err) {
 						console.log(err);
 						req.flash('error', 'Unable to save user details.');
@@ -50,7 +50,7 @@ updateSkills = function(req,res){
 			modified:modified
 			};
     
-	mysql.queryDb('update profile_skills set ? where profile_id =' + profile_id ,data,function(err,result){
+	mysql.queryDb('update skills set ? where profile_id =' + profile_id ,data,function(err,result){
 		if(err) {
 			console.log(err);
 	        req.flash('error', 'Unable to update skills details.');
@@ -66,7 +66,7 @@ updateSkills = function(req,res){
 
 getSkills=function(req,res){
 	
-	mysql.queryDb('select * from profile_skills where profile_id=?',[req.params.userid],function(err,rows){
+	mysql.queryDb('select * from skills where profile_id=?',[req.params.userid],function(err,rows){
 
 		if(!err){
 			if(rows==null || rows==''){

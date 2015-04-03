@@ -6,7 +6,7 @@ exports.db = {
 		"port" : 3306,
 		"user" : "root",
 		"password" : "rohan",
-		"database" : "linkedin",
+		"database" : "cmpe_282",
 		"connectionLimit" : 100
 };
 

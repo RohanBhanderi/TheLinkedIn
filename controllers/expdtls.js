@@ -23,12 +23,12 @@ saveExpDtls = function(req,res){
 			modified:created
 			};
     
-	mysql.queryDb('select * from profile_expdtls where profile_id=?',[profile_id],function(err,rows){
+	mysql.queryDb('select * from experience where profile_id=?',[profile_id],function(err,rows){
 
 		if(!err){
 			if(rows==null || rows==''){
 				console.log('no userdtls');
-				mysql.insertData('insert into profile_expdtls set ?',data,function(err,result){
+				mysql.insertData('insert into experience set ?',data,function(err,result){
 					if(err) {
 						console.log(err);
 						req.flash('error', 'Unable to save user details.');
@@ -68,7 +68,7 @@ updateExpDtls = function(req,res){
 			modified:modified
 			};
     
-	mysql.queryDb('update profile_expdtls set ? where profile_id =' + profile_id ,data,function(err,result){
+	mysql.queryDb('update experience set ? where profile_id =' + profile_id ,data,function(err,result){
 		if(err) {
 			console.log(err);
 			res.status(500).json(result);
@@ -82,7 +82,7 @@ updateExpDtls = function(req,res){
 
 getExpDtls=function(req,res){
 	
-	mysql.queryDb('select * from profile_expdtls where profile_id=?',[req.params.userid],function(err,rows){
+	mysql.queryDb('select * from experience where profile_id=?',[req.params.userid],function(err,rows){
 
 		if(!err){
 			if(rows==null || rows==''){
