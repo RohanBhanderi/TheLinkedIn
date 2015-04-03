@@ -1,5 +1,3 @@
-var app = angular.module('app');
-
 app.controller('navController',function($scope,$http){
 	$scope.showProfile = function(){
 		$http({
@@ -42,7 +40,8 @@ app.controller('navController',function($scope,$http){
 	$scope.logout = function(){
 		$http({
             method: 'GET',
-            url: '/logout'
+            url: '/logout',
+            data:{userId:document.getElementById('userid').value}
          }).success(function(response){
         	window.location = '/login';
 //            console.log(JSON.stringify(response));
@@ -73,4 +72,28 @@ app.controller('navController',function($scope,$http){
             console.log("error");
         });
 	};
+
+    $scope.showConnections = function() {
+        $http({
+            method: 'GET',
+            url: '/conns'
+         }).success(function(response){
+            console.log("success");
+           window.location = '/conns';
+        }).error(function(error){
+            console.log("error");
+        });
+    };
+
+    $scope.searchConns = function() {
+        $http({
+            method: 'GET',
+            url: '/conns/search'
+         }).success(function(response){
+            console.log("success");
+           window.location = '/search';
+        }).error(function(error){
+            console.log("error");
+        });
+    };
 });

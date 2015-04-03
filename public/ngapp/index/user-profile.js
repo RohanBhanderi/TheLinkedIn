@@ -1,31 +1,22 @@
-var app = angular.module('app');
-
-app.controller('profileController' ,function($scope,$http){
-	$scope.alrt = false;
+var profileController = app.controller('profileController',function($scope,$http,$filter,flash){
 	$scope.saveUserDtls = function(){
+        
 		$http({
             method: 'POST',
             url: '/userdtls',
             data:{userid:document.getElementById('userid').value,
             	city:$scope.city,
-            	phone:$scope.phone
+            	phone:$scope.phone,
+                summary:$scope.summary
             }
          })
          .success(function(response){
         	 console.log(response);
-        	 
-        	 $scope.alrt = true;
-        	 //window.location = '/profile?userid=' + document.getElementById('userid').value;
-            //console.log(JSON.stringify(response));
-            
-//            if(response.login == "Success")
-//           		window.location = '/successLogin';
-//            else
-//            	window.location = '/failLogin';
+             flash.success = response.message;
         })
         .error(function(error){
-            console.log("error");
-            $scope.msgs.push({type: 'alert alert-danger alert-dismissible', message: error});
+            console.log("error", error);
+            flash.error = response.message;
         });
 	};
 	
@@ -43,11 +34,11 @@ app.controller('profileController' ,function($scope,$http){
             	degree:$scope.degree,
             }
          }).success(function(response){
-        	 console.log(response);
-        	 $scope.msgs.push({type: 'alert alert-success alert-dismissible', message: 'Data saved successfully'});
+             console.log(response);
+             flash.success = response.message;
         }).error(function(error){
-            console.log("error");
-            $scope.msgs.push({type: 'alert alert-danger alert-dismissible', message: error});
+            console.log("error", error);
+            flash.error = response.message;
         });
 	};
 	
@@ -62,10 +53,11 @@ app.controller('profileController' ,function($scope,$http){
             	role:$scope.role,
             }
          }).success(function(response){
-        	 console.log(response);
-        	 
+             console.log(response);
+             flash.success = response.message;
         }).error(function(error){
-            console.log("error");
+            console.log("error", error);
+            flash.error = response.message;
         });
 	};
 	
@@ -77,10 +69,11 @@ app.controller('profileController' ,function($scope,$http){
             	skills:$scope.skills
             }
          }).success(function(response){
-        	 console.log(response);
-        	 
+             console.log(response);
+             flash.success = response.message;
         }).error(function(error){
-            console.log("error");
+            console.log("error", error);
+            flash.error = response.message;
         });
 	};
 	
@@ -93,13 +86,7 @@ app.controller('profileController' ,function($scope,$http){
         	 console.log(response);
         	 $scope.city = response.city;
         	 $scope.phone = response.phone;
-        	 //window.location = '/profile?userid=' + document.getElementById('userid').value;
-            //console.log(JSON.stringify(response));
-            
-//            if(response.login == "Success")
-//           		window.location = '/successLogin';
-//            else
-//            	window.location = '/failLogin';
+             $scope.summary=response.summary;
         })
         .error(function(error){
             console.log("error");
@@ -112,8 +99,8 @@ app.controller('profileController' ,function($scope,$http){
             url: '/edudtls/'+document.getElementById('userid').value
          }).success(function(response){
         	 console.log(response);
-        	 $scope.from=response.from;
-        	 $scope.to=response.to;
+        	 $scope.from=($filter('date')(response.from, 'yyyy-MM-dd'));
+        	 $scope.to=($filter('date')(response.to, 'yyyy-MM-dd'));
         	 $scope.college=response.college;
         	 $scope.degree=response.degree;
         }).error(function(error){
@@ -127,8 +114,8 @@ app.controller('profileController' ,function($scope,$http){
             url: '/expdtls/'+document.getElementById('userid').value
          }).success(function(response){
         	 console.log(response);
-        	 $scope.frome=response.from;
-        	 $scope.toe=response.to;
+        	 $scope.frome=($filter('date')(response.from, 'yyyy-MM-dd'));
+        	 $scope.toe=($filter('date')(response.to, 'yyyy-MM-dd'));
         	 $scope.place=response.place;
         	 $scope.role=response.role;
         }).error(function(error){
@@ -147,7 +134,7 @@ app.controller('profileController' ,function($scope,$http){
             console.log("error");
         });
 	};
-	
+
 	// in controller
 	$scope.init = function () {
 	    $scope.getUserDtls();
@@ -155,3 +142,4 @@ app.controller('profileController' ,function($scope,$http){
 	    $scope.getExpDtls();
 	};
 });
+profileController.$inject = ['flash'];

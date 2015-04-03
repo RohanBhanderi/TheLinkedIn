@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="app">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,13 +14,15 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="css/bootstrap-datepicker3.min.css" />
-
+	<link href="css/bootstrap-datepicker3.min.css" rel="stylesheet"/>
+	<link href="css/xeditable.css" rel="stylesheet">
 	<link href="css/signin.css" rel="stylesheet">
 	
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script src="js/angular-flash.min.js"></script>
+	<script src="js/xeditable.js"></script>
 	<script src="/ngapp/ngapp.js"></script>
     <!-- Custom CSS -->
     <style>
@@ -64,6 +64,8 @@
 					<li><a href="" ng-click="home()">Home</a></li> 
 					{% if isAuthenticated %}
 					<li><a href="" ng-click="showProfile()">Profile</a></li>
+					<!-- <li><a href="" ng-click="showConnections()">Connections</a></li> -->
+					<!-- <li><a href="" ng-click="searchConns()">Search</a></li> -->
 					<li><a href="" ng-click="logout()">Logout</a></li> 
 					{% else %}
 					<li><a href="" ng-click="login()">Login</a></li> 
@@ -77,7 +79,6 @@
 
     <!-- Page Content -->
     <div class="container">
-	
 		<div id="messages">
 			{% for message in messages %}
 			<div class="{{ message.type }}" role="alert">
@@ -85,32 +86,25 @@
 			{{ message.message }}
 			</div> 
 			{% endfor %}
-			
-			
-			<div ng-show="alrt" class="alert alert-success alert-dismissible" role="alert" >
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				Data saved successfully
-			</div> 
+			<!-- Subscribe to all flash messages. -->
+			<div flash-alert="success" active-class="in alert" class="fade alert-dismissible">
+				<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			    <span class="alert-message" ng-bind="flash.message"></span>
+			</div>
+			<div flash-alert="error" active-class="in alert" class="fade alert-dismissible">
+				<span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			    <span class="alert-message" ng-bind="flash.message"></span>
+			</div>
 		</div>
-	
 		<div class="row">{% block content %}{% endblock %}</div>
 	</div>
-	<input type="hidden" id="userid" name="userid" value="{{session.userid}}">
+	<input type="hidden" id="userid" name="userid" value="{{userid}}" />
     <!-- /.container -->
-
-<!--     jQuery Version 1.11.1 -->
-<!--     <script src="js/jquery.js"></script> -->
-
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-	
 	<script src="js/bootstrap-datepicker.min.js"></script>    
-    
-    
     <script src="/ngapp/layouts/default.js"></script>
-
-
-
 </body>
-
 </html>

@@ -4,12 +4,13 @@ saveUserDtls = function(req,res){
 	var city = req.body.city;
 	var phone = req.body.phone;
 	var profile_id = req.body.userid;
-
+	var summary = req.body.summary;
 	var created = dateutil.now();
 	var data = {
 			profile_id : profile_id,
 			city : city,
 			phone: phone,
+			summary: summary,
 			created:created,
 			modified:created
 	};
@@ -26,8 +27,7 @@ saveUserDtls = function(req,res){
 					} 
 					else {
 						//console.log(result);
-						res.writeHead(200,{"Content-type":"application/json"});
-						res.end(JSON.stringify(result));
+						res.status(200).json({message:'User details updated successfully'});
 					}
 				});
 			}else{
@@ -47,21 +47,21 @@ updateUserDtls = function(req,res){
 	var city = req.body.city;
 	var phone = req.body.phone;
 	var profile_id = req.body.userid;
+	var summary = req.body.summary;
 	var data = {
 			city : city,
 			phone: phone,
+			summary: summary,
 			modified:modified
 	};
 
 	mysql.queryDb('update profile_userdtls set ? where profile_id =' + profile_id ,data,function(err,result){
 		if(err) {
-			console.log(err);
 			console.error(e.stack);
-	        res.send(500, "Server crashed.");
+	        res.status(500).json(result);
 		} else {
 			//console.log(result);
-			res.writeHead(200,{"Content-type":"application/json"});
-			res.end(JSON.stringify(result));
+			res.status(200).json({message:'User details updated successfully'});
 		}
 	});
 

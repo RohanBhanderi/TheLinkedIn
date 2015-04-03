@@ -9,8 +9,8 @@ saveExpDtls = function(req,res){
     
     var from = req.body.from;
     var to = req.body.to;
-    var formDate = moment(from,'MM/YYYY').toDate();
-    var toDate = moment(to,'MM/YYYY').toDate();
+    var formDate = moment(from,'YYYY-MM-DD').toDate();
+	    var toDate = moment(to,'YYYY-MM-DD').toDate();
     
     var created = dateutil.now();
 	var data = {
@@ -36,8 +36,7 @@ saveExpDtls = function(req,res){
 					} 
 					else {
 						//console.log(result);
-						res.writeHead(200,{"Content-type":"application/json"});
-						res.end(JSON.stringify(result));
+						res.status(200).json({message:'Experience details updated successfully'});
 					}
 				});
 			}else{
@@ -59,8 +58,8 @@ updateExpDtls = function(req,res){
     
 	var from = req.body.from;
     var to = req.body.to;
-    var formDate = moment(from,'MM/YYYY').toDate();
-    var toDate = moment(to,'MM/YYYY').toDate();
+    var formDate = moment(from,'YYYY-MM-DD').toDate();
+	    var toDate = moment(to,'YYYY-MM-DD').toDate();
 	var data = {
 			from: formDate,
 			to: toDate,
@@ -72,14 +71,11 @@ updateExpDtls = function(req,res){
 	mysql.queryDb('update profile_expdtls set ? where profile_id =' + profile_id ,data,function(err,result){
 		if(err) {
 			console.log(err);
-	        
-	        res.writeHead(200,{"Content-type":"application/json"});
-			res.end(JSON.stringify(result));
+			res.status(500).json(result);
 		} 
-//		else {
-//			req.flash('error', 'Unable to create account.');
-//	        res.redirect('/profile');
-//		}
+		else {
+			res.status(200).json({message:'Experience details updated successfully'});
+		}
 	});
 	
 };
@@ -91,12 +87,10 @@ getExpDtls=function(req,res){
 		if(!err){
 			if(rows==null || rows==''){
 				console.log('no userdtls');
-				res.writeHead(200,{"Content-type":"application/json"});
-				res.end('');
+				res.status(200).end();
 			}else{
 				//console.log(result);
-				res.writeHead(200,{"Content-type":"application/json"});
-				res.end(JSON.stringify(rows[0]));
+				res.status(200).json(rows[0]);
 			}
 		} else {	
 			console.error(e.stack);

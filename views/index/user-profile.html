@@ -1,12 +1,38 @@
 {% extends '../layouts/default.html' %} 
 {% block content %}
+<div ng-controller="profileController" data-ng-init="init()">
 <div class="col-sm-2"></div>
-<div class="col-sm-8" ng-controller="profileController" data-ng-init="init()" id="profilediv">
+<div class="col-sm-8" id="profilediv">
 	<h2>{{ firstname }} {{ lastname }}</h2>
 	{% if session.last_login != '' %}
     	<h5>Last Logged In: {{ session.last_login }}</h5>
     {% endif %}
-	<form role="form">
+    <form editable-form name="summaryDtls" role="form" onaftersave="saveUserDtls()">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Summary</h3>
+			</div>
+			<div class="panel-body">
+				<textarea e-name="summary" class="form-control" ng-model="summary" 
+				editable-textarea="summary" e-rows="10" e-cols="100" readonly e-required>
+				</textarea>
+				<div class="buttons">
+			      <!-- button to show form -->
+			      <button type="button" class="btn btn-default" ng-click="summaryDtls.$show()" ng-show="!summaryDtls.$visible">
+			        Edit
+			      </button>
+			      <!-- buttons to submit / cancel form -->
+			      <span ng-show="summaryDtls.$visible">
+			        <button type="submit" class="btn btn-primary" ng-disabled="summaryDtls.$waiting">
+			          Save
+			        </button>
+			        <button type="button" class="btn btn-default" ng-disabled="summaryDtls.$waiting" ng-click="summaryDtls.$cancel()">
+			          Cancel
+			        </button>
+				</div>
+		</div>
+		</form>
+	<form editable-form name="userDtls" role="form" onaftersave="saveUserDtls()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">User Details</h3>
@@ -14,22 +40,38 @@
 			<div class="panel-body">
 
 				<div class="form-group">
-					<label for="firstname">City:</label> 
-					<input id="city" type="text" ng-model="city"
-						name="city" value="{{ city }}" class="form-control" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$"
-						placeholder="Enter your city" required="required" title="Please enter valid details">
+					<label for="city">City:</label>  
+					<input e-id="city" e-type="text" ng-model="city"
+						e-name="city" editable-text="city" e-required
+						value="{{ city }}" class="form-control" e-pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$" readonly="readonly" 
+						e-placeholder="Enter your city" title="Please enter valid details">
 				</div>
 				<div class="form-group">
 					<label for="lastname">Phone Number:</label> 
-					<input id="phone" ng-model="phone" pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$"
-						type="text" name="phone" value="{{ phone }}" class="form-control"
+					<input id="phone" ng-model="phone" readonly
+					e-name="city" editable-text="phone" e-required
+					e-pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$"
+						type="text" value="{{ phone }}" class="form-control"
 						placeholder="Enter phone number" title="Please enter valid details">
 				</div>
-				<button type="submit" class="btn btn-default" ng-click="saveUserDtls()">Submit</button>
-			</div>
+				<!-- <button type="submit" class="btn btn-default" ng-click="saveUserDtls()">Submit</button> -->
+				<div class="buttons">
+			      <!-- button to show form -->
+			      <button type="button" class="btn btn-default" ng-click="userDtls.$show()" ng-show="!userDtls.$visible">
+			        Edit
+			      </button>
+			      <!-- buttons to submit / cancel form -->
+			      <span ng-show="userDtls.$visible">
+			        <button type="submit" class="btn btn-primary" ng-disabled="userDtls.$waiting">
+			          Save
+			        </button>
+			        <button type="button" class="btn btn-default" ng-disabled="userDtls.$waiting" ng-click="userDtls.$cancel()">
+			          Cancel
+			        </button>
+				</div>
 		</div>
 		</form>
-		<form role="form">
+		<form editable-form name="eduDtls" role="form" onaftersave="saveEduDtls()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Education</h3>
@@ -39,36 +81,50 @@
 					<label class="col-sm-1" for="from">From</label>
 			        <div class="col-sm-5">
 			            <div class="input-group input-append date" >
-			                <input type="text" class="form-control" id="fromdt" name="from" data-date-format='mm/yyyy' 
-			                ng-model="from" pattern="[0-9]{2}/[0-9]{4}" required />
+			                <input type="date" class="form-control" e-id="fromdt" e-name="from"
+			                ng-model="from" e-pattern="[0-9]{2}/[0-9]{4}" e-required />
 			                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 			            </div>
 			        </div>
 					<label class="col-sm-1" for="to">To</label>
 			        <div class="col-sm-5">
 			            <div class="input-group input-append date" >
-			                <input type="text" class="form-control" name="to" id="todt" data-date-format='mm/yyyy' ng-model="to"/>
+			                <input type="date" class="form-control" e-name="to" e-id="todt" ng-model="to"/>
 			                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 			            </div>
 			        </div>
 				</div>
 				<div class="form-group">
 					<label for="college">School Name:</label> 
-					<input id="college" ng-model="college" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$"
-						type="text" name="colleage" class="form-control"
-						placeholder="Enter School Name" required title="Please enter valid details">
+					<input editable-text="college" e-id="college" ng-model="college" readonly e-pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$"
+						type="text" e-name="colleage" class="form-control"
+						e-placeholder="Enter School Name" e-required title="Please enter valid details">
 				</div>
 				<div class="form-group">
 					<label for="degree">Degree:</label> 
-					<input ng-model="degree"
-						id="degree" type="text" name="degree" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$"
-						class="form-control" placeholder="Enter Degree" required title="Please enter valid details">
+					<input ng-model="degree" editable-text="degree"
+						id="degree" e-type="text" e-name="degree" readonly e-pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$"
+						class="form-control" e-placeholder="Enter Degree" e-required e-title="Please enter valid details">
 				</div>
-				<button type="submit" class="btn btn-default" ng-click="saveEduDtls()">Submit</button>
+				<!-- <button type="submit" class="btn btn-default" ng-click="saveEduDtls()">Submit</button> -->
+				<div class="buttons">
+			      <!-- button to show form -->
+			      <button type="button" class="btn btn-default" ng-click="eduDtls.$show()" ng-show="!eduDtls.$visible">
+			        Edit
+			      </button>
+			      <!-- buttons to submit / cancel form -->
+			      <span ng-show="eduDtls.$visible">
+			        <button type="submit" class="btn btn-primary" ng-disabled="eduDtls.$waiting">
+			          Save
+			        </button>
+			        <button type="button" class="btn btn-default" ng-disabled="eduDtls.$waiting" ng-click="eduDtls.$cancel()">
+			          Cancel
+			        </button>
+				</div>
 			</div>
 		</div>
 		</form>
-		<form role="form">
+		<form editable-form name="expDtls" role="form" onaftersave="saveExpDtls()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Experience</h3>
@@ -77,38 +133,51 @@
 				<div class="form-group">
 					<label class="col-sm-1" for="from">From</label>
 			        <div class="col-sm-5">
-			            <div class="input-group input-append date">
-			                <input type="text" class="form-control" id="fromedt" name="frome" ng-model="frome" data-date-format='mm/yyyy' 
-			                required />
+			            <div class="input-group input-append date" >
+			                <input type="date" class="form-control" e-id="fromedt" e-name="frome"
+			                ng-model="frome" e-pattern="[0-9]{2}/[0-9]{4}" e-required />
 			                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 			            </div>
 			        </div>
 					<label class="col-sm-1" for="to">To</label>
 			        <div class="col-sm-5">
 			            <div class="input-group input-append date" >
-			                <input type="text" class="form-control" name="toe" id="toedt" data-date-format='mm/yyyy' ng-model="toe"
-			                />
+			                <input type="date" class="form-control" e-name="toe" e-id="toedt" ng-model="toe"/>
 			                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 			            </div>
 			        </div>
 				</div>
 				<div class="form-group">
 					<label for="place">Place of work:</label> 
-					<input id="place" ng-model="place" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$"
-						type="text" name="place" class="form-control"
+					<input id="place" ng-model="place" editable-text="place" readonly pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$"
+						type="text" e-name="place" class="form-control"
 						placeholder="Enter Place of work" required title="Please enter valid details">
 				</div>
 				<div class="form-group">
 					<label for="role">Role:</label> 
 					<input ng-model="role"
-						id="role" type="text" name="role" pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$"
+						id="role" type="text" e-name="role" editable-text="role" readonly pattern="^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$"
 						class="form-control" placeholder="Enter Role" required title="Please enter valid details">
 				</div>
-				<button type="submit" class="btn btn-default" ng-click="saveExpDtls()">Submit</button>
+				<!-- <button type="submit" class="btn btn-default" ng-click="saveExpDtls()">Submit</button> -->
+				<div class="buttons">
+			      <!-- button to show form -->
+			      <button type="button" class="btn btn-default" ng-click="expDtls.$show()" ng-show="!expDtls.$visible">
+			        Edit
+			      </button>
+			      <!-- buttons to submit / cancel form -->
+			      <span ng-show="expDtls.$visible">
+			        <button type="submit" class="btn btn-primary" ng-disabled="expDtls.$waiting">
+			          Save
+			        </button>
+			        <button type="button" class="btn btn-default" ng-disabled="expDtls.$waiting" ng-click="expDtls.$cancel()">
+			          Cancel
+			        </button>
+				</div>
 			</div>
 		</div>
 		</form>
-		<form role="form">
+		<form editable-form name="skillsDtls" role="form" onaftersave="saveSkills()">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Skills</h3>
@@ -125,12 +194,13 @@
 						<span>{{skill.name}}</span><span class="badge">{{skill.badge}}</span>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-default" ng-click="saveSkills()">Submit</button>
+				<button type="submit" class="btn btn-default">Submit</button>
 			</div>
 		</div>
 		</form>
 </div>
 <div class="col-sm-2"></div>
+</div>
 <script type="text/javascript">
 $(function () {
 $('#fromdt').datepicker();

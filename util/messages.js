@@ -18,6 +18,7 @@ module.exports = function() {
         res.locals.isAuthenticated = req.isAuthenticated();
         res.locals.flash = req.flash;
         res.locals.session = req.session;
+        res.locals.userid = (typeof(req.user) != "undefined" && req.user != null) ? req.user.id : '';
         next();
     };
 };

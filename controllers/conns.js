@@ -63,7 +63,7 @@ updateConns = function(req,res){
 
 getConns=function(req,res){
 	
-	mysql.selectData('select * from profile_conns where profile_id=?',[req.params.userid],function(err,rows){
+	mysql.queryDb('select * from profile_conns where profile_id=?',[req.params.userid],function(err,rows){
 
 		if(!err){
 			if(rows==null || rows==''){
