@@ -4,47 +4,30 @@ var crypto = require('crypto'),
 	moment = require('moment'),
 	dateutil = require('../util/dateutil');
 
-exports.registerPage = function(req, res) {
-    res.render('login/register', {username: req.flash('username')});
-};
-
-exports.registerPost = function(req, res) {
-    var vpw = req.body.vpw;
-    var pwu = req.body.pw;
-    var un = req.body.un;
-    var fn = req.body.fn;
-    var ln = req.body.ln;
+exports.register = function(req, res) {
+    //var vpw = req.body.vpw;
+    console.log("registerPost inside");
+    var pwu = req.body.password;
+    var un = req.body.email;
+    var fn = req.body.firstName;
+    var ln = req.body.lastName;
     
     req.flash('username', un);
-    
-    if(vpw !== pwu) {
-        req.flash('error', 'Your passwords did not match.');
-        res.redirect('/register');
-        return;
-    }
 
-    req.checkBody('un', 'Please enter a valid email.').notEmpty().isEmail();
+    req.checkBody('email', 'Please enter a valid email.').notEmpty().isEmail();
     var errors = req.validationErrors();
     if (errors) {
+        console.log(errors);
         var msg = errors[0].msg;
-        req.flash('error', msg);
-        res.redirect('/register');
-        return;
+        res.status(400).json({
+            status : 400,
+            message : msg
+        });
     }
     
     var new_salt = Math.round((new Date().valueOf() * Math.random())) + '';
     var pw = crypto.createHmac('sha1', new_salt).update(pwu).digest('hex');
     var created = dateutil.now();
-    
-   //  var data = {first_name : fn,
-			// last_name : ln,
-			// email : un,
-			// password: pw,
-			// active:'1',
-			// created:created,
-			// modified:created,
-			// last_login:created,
-			// salt:new_salt};
     
     var data={
             username:un,
@@ -59,10 +42,13 @@ exports.registerPost = function(req, res) {
 	mysql.queryDb('insert into userauthenticate set ?',data,function(err,result){
 		if(err) {
 			console.log(err);
-	        req.flash('error', 'Unable to create account.');
-	        res.redirect('/register');
+	        res.status(500).json({
+                    status : 500,
+                    message : "Please try again later"
+                });
 		} else {
-			mysql.queryDb('insert into userdetails set ?',{userid: result.insertId,firstname : fn,
+            var userid = result.insertId;
+			mysql.queryDb('insert into userdetails set ?',{userid: userid,firstname : fn,
                 lastname : ln,
                 email : un,
                 creationdate:created,
@@ -70,13 +56,23 @@ exports.registerPost = function(req, res) {
                 },
 			function(err,result){
 				if(err) {
-					console.log(err);
-				    req.flash('error', 'Unable to create account.');
-				    res.redirect('/register');
+					res.status(500).json({
+                    status : 500,
+                    message : "Please try again later"
+                    });
 				} else {
-					req.session.profileId = result.insertId;
+					req.session.userid = userid;
 					passport.authenticate('local')(req, res, function () {
-				        res.redirect('/home');
+                        lastLogin = new Date();
+                        req.session.email = un;
+
+                        res.status(200).json({
+                            status : 200,
+                            userid : userid,
+                            email : un,
+                            name : req.body.firstName + " " + req.body.lastName,
+                            lastLogin : lastLogin.toDateString() + " " + lastLogin.toLocaleTimeString()
+                        });
 				    });
 				}
 			});
@@ -85,40 +81,56 @@ exports.registerPost = function(req, res) {
 };
 
 exports.loginPage = function(req, res) {
-    res.render('login/index', {username: req.flash('username')});
+    res.render('index', {username: req.flash('username')});
 };
-
 
 exports.checkLogin = function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
-        if (err || !user) {
-            req.flash('username', req.body.un);
-            req.flash('error', info.message);
-            return res.redirect('/login');
+        if (err) {
+            console.log(err);
+            res.status(500).json({status:500,message : info.message + "Please try again later"});
+        }
+        if(!user) {
+           console.log(err);
+            res.status(401).json({status:401,message : info.message + "Please try again later"}); 
         }
         req.logIn(user, function(err) {
             if (err) {
-                req.flash('error', info.message);
-                return res.redirect('/login');
+                console.log(err);
+                res.status(500).json({status:500,message : err + "Please try again later"});
             }
-            req.flash('success', 'Welcome! ' +user.first_name);
-            req.session.last_login = moment(user.last_login).format('LLL');
-            req.session.userid=user.id;
-            //console.log(new Date() + "|" + user.last_login + "|"+ moment() + "|" + new Date().toLocaleString());
-            console.log(moment(user.last_login).format('LLL'));
-            mysql.queryDb('update userauthenticate set ? where ?',[{last_login:new Date()},{id:user.id}],function(err,result){
+            var lastlogin = moment(user.lastlogin).format('LLL');
+            req.session.lastlogin = lastlogin;
+            req.session.userid = user.userid;
+            req.session.email = user.username;
+            console.log(moment(user.lastlogin).format('LLL'));
+
+            //Async Query
+            mysql.queryDb('update userauthenticate set ? where ?',[{lastlogin:new Date()},{userid:user.userid}],function(err,result){
         		if(err) {
         			console.log(err);
-        	        req.flash('error', 'Unable to create account.');
         		}
         	});
-            return res.redirect('/profile?userid='+user.id);
+            
+            mysql.queryDb("select firstname, lastname from userdetails where ?",[{userid:user.userid}],function(err,result){
+                if(err) {
+                    console.log(err);
+                    res.status(500).json({status:500,message : "Please try again later"});
+                } else {
+//                    console.log(JSON.stringify(result));
+                    res.status(200).json({status : 200, userid:user.userid, email : user.username, name : result[0].firstname  + ' ' + result[0].lastname, lastLogin : lastlogin});
+                }
+            });            
         });
     })(req, res, next);
 };
 
 exports.logout = function(req, res) {
     req.logout();
-    req.flash('info', 'You are now logged out.');
-    res.redirect('/login');
+    res.send(200);
+};
+
+// route to test if the user is logged in or not 
+exports.loggedin = function(req, res) {
+    res.send(req.isAuthenticated() ? req.user : '0'); 
 };

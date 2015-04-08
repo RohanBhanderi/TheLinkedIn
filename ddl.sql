@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `CMPE_282`.`userauthenticate` (
   `approved` TINYINT(1) NULL DEFAULT '0',
   `creationdate` DATE NULL DEFAULT NULL,
   `modifydate` DATE NULL DEFAULT NULL,
-  `lastlogin` DATE NULL DEFAULT NULL,
+  `lastlogin` DATETIME NULL DEFAULT NULL,
   `salt` VARCHAR(50) NULL DEFAULT NULL,
   PRIMARY KEY (`userid`))
 ENGINE = InnoDB
@@ -541,3 +541,6 @@ DELIMITER ;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+ALTER TABLE userdetails add column dob varchar(25);
+ALTER TABLE userdetails modify column summary varchar(250);

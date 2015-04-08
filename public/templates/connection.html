@@ -1,0 +1,40 @@
+<div ng-controller="ConnectionCtrl" ng-init="getAllConnections()">
+	<div style="width: 80%; padding-top: 25px;">
+		<div class="row" style="padding-top: 10px;">
+			<div class="col-xs-9">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-default" style="padding: 0;">
+							<div class="panel-body">
+								<h4>Connections</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-default" style="padding: 0;">
+							<div class="panel-body">
+								<div ng-repeat="data in connectionList">
+									<div class="col-xs-4">
+										<img alt="Profile Picture" src="images/default-pic1.png"
+											height="50" width="50">
+									</div>
+									<div class="col-xs-6 col-xs-pull-3">
+										<h4 class="text-primary">{{data.name}}</h4>
+										<div class="row">
+											<div class="col-xs-6" style="margin-top: -15px;">
+												<h5>{{data.email}}</h5>
+											</div>
+										</div>	
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer text-center"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

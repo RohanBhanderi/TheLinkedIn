@@ -1,0 +1,49 @@
+<div ng-controller="JobsCtrl" ng-init="getAllConnections()">
+	<div style="width: 80%; padding-top: 25px;">
+		<div class="row" style="padding-top: 10px;">
+			<div class="col-xs-9">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-default" style="padding: 0;">
+							<div class="panel-body">
+								<h4>Experience</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-default" style="padding: 0;">
+							<div class="panel-body">
+								<div ng-repeat="data in jobsList">
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="col-xs-6" style="padding-left: 0;">
+												<h4>{{data.company}}</h4>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<h4>
+												<small>{{data.designation}}</small>
+											</h4>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<h4>
+												<small>{{data.from}} To {{data.to}}</small>
+											</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer text-center"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

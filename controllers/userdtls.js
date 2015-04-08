@@ -1,94 +1,78 @@
 var dateutil = require('../util/dateutil');
 
-saveUserDtls = function(req,res){
-	var city = req.body.city;
-	var phone = req.body.phone;
-	var profile_id = req.body.userid;
-	var summary = req.body.summary;
-	var created = dateutil.now();
-	var data = {
-			profile_id : profile_id,
-			city : city,
-			phone: phone,
-			summary: summary,
-			created:created,
-			modified:created
-	};
-	mysql.queryDb('select * from userdetails where userid=?',[profile_id],function(err,rows){
+updateUserDtls = function(req,res){
 
-		if(!err){
-			if(rows==null || rows==''){
-				console.log('no userdtls');
-				mysql.queryDb('insert into userdetails set ?',data,function(err,result){
-					if(err) {
-						console.log(err);
-						req.flash('error', 'Unable to save user details.');
-						res.redirect('/profile');
-					} 
-					else {
-						//console.log(result);
-						res.status(200).json({message:'User details updated successfully'});
-					}
+	if(!req.body.userid || !req.body.lastName || !req.body.dob || !req.body.summary){
+		res.status(400).json({
+			status : 400,
+			message : "Bad Request"
+		});
+	}else{
+		var userid = req.body.userid;
+
+		var queryParams = {
+				firstName : req.body.firstName,
+				lastName : req.body.lastName,
+				headline : req.body.headline,
+				dob : req.body.dob,
+				summary : req.body.summary
+		};
+
+		mysql.queryDb("UPDATE ?? SET ? WHERE ?? = ?",['userdetails',queryParams,'userid',userid],function(err,response){
+			if (err) {
+				res.status(500).json({
+					status : 500,
+					message : "Error while updating user profile"
 				});
-			}else{
-				console.error("update before");
-				this.updateUserDtls(req,res);
+			} else {
+				res.status(200).json({
+					status : 200,
+					message : "Successfull"
+				});
 			}
-		} else {	
-			console.error(e.stack);
-	        res.send(500, "Server crashed.");
-		}
-	});
+		});
+	}
 };
 
-updateUserDtls = function(req,res){
-	//console.error("update");
-	var modified = dateutil.now();
-	var city = req.body.city;
-	var phone = req.body.phone;
-	var profile_id = req.body.userid;
-	var summary = req.body.summary;
-	var data = {
-			city : city,
-			phone: phone,
-			summary: summary,
-			modified:modified
-	};
-
-	mysql.queryDb('update userdetails set ? where userid =' + profile_id ,data,function(err,result){
-		if(err) {
-			console.error(e.stack);
-	        res.status(500).json(result);
+getAllUserDtls = function(req, res) {
+	mysql.queryDb("SELECT CONCAT_WS(' ',firstName,lastName) as name,email from userdetails",
+		function(err, response) {
+		if (err) {
+			console.log("Error while fetching list of all the users !!!");
+			res.status(500).json({
+				status : 500,
+				message : "Please try again later"
+			});
 		} else {
-			//console.log(result);
-			res.status(200).json({message:'User details updated successfully'});
+			console.log("api/user successfull");
+			res.status(200).json({
+				status : 200,
+				data : response
+			});
 		}
 	});
-
 };
 
 getUserDtls=function(req,res){
 	//console.log("userid"+req.params.userid);
 	mysql.queryDb('select * from userdetails where userid=?',[req.params.userid],function(err,rows){
-
-		if(!err){
-			if(rows==null || rows==''){
-				console.log('no userdtls');
-				res.writeHead(200,{"Content-type":"application/json"});
-				res.end('');
-			}else{
-				//console.log(result);
-				res.writeHead(200,{"Content-type":"application/json"});
-				res.end(JSON.stringify(rows[0]));
-			}
-		} else {	
-			console.error(e.stack);
-	        res.send(500, "Server crashed.");
+		if (err) {
+			console.log("Error while fetching list of all the users !!!");
+			res.status(500).json({
+				status : 500,
+				message : "Please try again later"
+			});
+		} else {
+			//console.log("api/user successfull");
+			res.status(200).json({
+				status : 200,
+				data : rows
+			});
 		}
 	});
 	
 };
 
+exports.getAllUserDtls = getAllUserDtls;
 exports.getUserDtls = getUserDtls;
-exports.saveUserDtls = saveUserDtls;
 exports.updateUserDtls = updateUserDtls;

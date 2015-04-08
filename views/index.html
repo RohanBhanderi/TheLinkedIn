@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="myLinkedIn">
+<head>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1 maximum-scale=4">
+<title>TheLinkedIn</title>
+<link rel="icon" href="images/favicon.ico"></link>
+<!--  -->
+<!--Application CSS-->
+<link rel="stylesheet" type="text/css" href="css/main.css">
+
+<!--Bootstrap CSS-->
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+
+<!--Angular JS-->
+<script type="text/javascript" src="library/angular/angular.min.js"></script>
+
+<!--Angular UI Router JS-->
+<script type="text/javascript" src="library/angular-ui-router/angular-ui-router.min.js"></script>
+
+<!--Angular Route JS-->
+<script type="text/javascript" src="library/angular-route/angular-route.min.js"></script>
+
+<!--jQuery JS-->
+<script type="text/javascript" src="library/jquery/jquery-2.1.3.min.js"></script>
+
+<!--Bootstrap JS-->
+<script type="text/javascript" src="library/bootstrap/bootstrap.min.js"></script>
+
+<!--Angular Bootstrap JS-->
+<script type="text/javascript"
+	src="library/angular-bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
+
+<!--App JS-->
+<script type="text/javascript" src="javascripts/app.js"></script>
+
+<!--Controllers-->
+<script type="text/javascript"
+	src="javascripts/controllers/loginController.js"></script>
+<script type="text/javascript"
+	src="javascripts/controllers/signUpController.js"></script>
+<script type="text/javascript"
+	src="javascripts/controllers/userHomeController.js"></script>
+<script type="text/javascript"
+	src="javascripts/controllers/profileController.js"></script>
+<script type="text/javascript"
+	src="javascripts/controllers/editProfileController.js"></script>
+<script type="text/javascript"
+	src="javascripts/controllers/editEmploymentController.js"></script>
+<script type="text/javascript"
+	src="javascripts/controllers/editEducationController.js"></script>
+<script type="text/javascript"
+	src="javascripts/controllers/editSkillsController.js"></script>
+<script type="text/javascript"
+	src="javascripts/controllers/searchResultController.js"></script>
+<script type="text/javascript"
+	src="javascripts/controllers/connectionController.js"></script>
+<script type="text/javascript"
+	src="javascripts/controllers/educationController.js"></script>
+<script type="text/javascript"
+	src="javascripts/controllers/jobsController.js"></script>
+
+<!--Services-->
+<script type="text/javascript" src="javascripts/services/dataService.js"></script>
+
+<!--Utility-->
+<script type="text/javascript" src="javascripts/utility/constants.js"></script>
+
+<!--Crypto-->
+<script type="text/javascript"
+	src="library/client-crypto/cryptoSHA256.min.js"></script>
+
+</head>
+<body class="rootBackground">
+	<div class="container-fluid" id="indexContainer">
+		<div ui-view></div>
+	</div>
+</body>
+</html>

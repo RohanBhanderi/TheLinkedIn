@@ -2,104 +2,144 @@ var dateutil = require('../util/dateutil'),
 	moment = require('moment');
 
 saveExpDtls = function(req,res){
-    
-    var profile_id = req.body.userid;
-    var place = req.body.place;
-    var role = req.body.role;
-    
-    var from = req.body.from;
-    var to = req.body.to;
-    var formDate = moment(from,'YYYY-MM-DD').toDate();
-	    var toDate = moment(to,'YYYY-MM-DD').toDate();
-    
-    var created = dateutil.now();
-	var data = {
-			profile_id : profile_id,
-			from: formDate,
-			to: toDate,
-			place: place,
-			role: role,
-			created:created,
-			modified:created
-			};
-    
-	mysql.queryDb('select * from experience where profile_id=?',[profile_id],function(err,rows){
+	
+	var created = dateutil.now();
 
-		if(!err){
-			if(rows==null || rows==''){
-				console.log('no userdtls');
-				mysql.insertData('insert into experience set ?',data,function(err,result){
-					if(err) {
-						console.log(err);
-						req.flash('error', 'Unable to save user details.');
-						res.redirect('/profile');
-					} 
-					else {
-						//console.log(result);
-						res.status(200).json({message:'Experience details updated successfully'});
-					}
-				});
-			}else{
-				console.error("update before");
-				this.updateExpDtls(req,res);
-			}
-		} else {	
-			console.error(e.stack);
-	        res.send(500, "Server crashed.");
+	if(!req.body.userid || !req.body.startdate || !req.body.enddate || !req.body.companyname || !req.body.title){
+		res.status(400).json({
+			status : 400,
+			message : "Bad Request"
+		});
+	}else{
+		var formDate = moment(req.body.startdate,'MMMM-YYYY').toDate();
+		var toDate = moment(req.body.enddate,'MMMM-YYYY').toDate();
+
+		var queryParam = {
+				userid : req.body.userid,
+				startdate : formDate,
+				enddate : toDate,
+				companyname : req.body.companyname,
+				title : req.body.title,
+				creationdate:created,
+				modifydate:created
 		}
-	});
+
+		mysql.queryDb("INSERT INTO experience SET ?", queryParam, function(err,
+				response) {
+			if (err) {
+				console.log("Error while perfoming query !!!");
+				res.status(500).json({
+					status : 500,
+					message : "Please try again later"
+				});
+			} else {
+				res.status(200).json({
+					status : 200,
+					message : "Experience has been added Succesfully"
+				});
+			}
+		});
+	}
 };
 
 updateExpDtls = function(req,res){
 	var modified = dateutil.now();
-	var profile_id = req.body.userid;
-    var place = req.body.place;
-    var role = req.body.role;
-    
-	var from = req.body.from;
-    var to = req.body.to;
-    var formDate = moment(from,'YYYY-MM-DD').toDate();
-	    var toDate = moment(to,'YYYY-MM-DD').toDate();
-	var data = {
-			from: formDate,
-			to: toDate,
-			place: place,
-			role: role,
-			modified:modified
-			};
-    
-	mysql.queryDb('update experience set ? where profile_id =' + profile_id ,data,function(err,result){
-		if(err) {
-			console.log(err);
-			res.status(500).json(result);
-		} 
-		else {
-			res.status(200).json({message:'Experience details updated successfully'});
-		}
-	});
-	
+	if(!req.body.old || !req.body.update){
+		res.status(400).json({
+			status : 400,
+			message : "Bad Request"
+		});
+	}else{
+		var old = req.body.old, update = req.body.update;
+		
+		var newParam ={
+				startdate : moment(update.startdate,'MMMM-YYYY').toDate(),
+				enddate : moment(update.enddate,'MMMM-YYYY').toDate(),
+				companyname : update.companyname,
+				title : update.title,
+				modifydate:modified
+		};
+		//and ?? = ? and ?? = ?
+		//,'startdate',old.startdate,'enddate',old.enddate
+		mysql.queryDb("UPDATE experience SET ? WHERE ?? = ? and ?? = ? and ?? = ?", 
+			[newParam,'userid',old.userid,'companyname',old.companyname,'title',old.title], 
+			function(err, response) {
+			if (err) {
+				console.log("Error while perfoming query !!!");
+				console.log(err);
+				res.status(500).json({
+					status : 500,
+					message : "Please try again later"
+				});
+			} else {
+				res.status(200).json({
+					status : 200,
+					message : "Experience has been updated Succesfully"
+				});
+			}
+		});
+	}
 };
 
 getExpDtls=function(req,res){
-	
-	mysql.queryDb('select * from experience where profile_id=?',[req.params.userid],function(err,rows){
+	if(!req.params.userid){
+		res.status(400).json({
+			status : 400,
+			message : "Bad Request"
+		});
+	}else{
+		mysql.queryDb('SELECT * FROM experience WHERE ?',[{userid:req.params.userid}],function(err,rows){
 
-		if(!err){
-			if(rows==null || rows==''){
-				console.log('no userdtls');
-				res.status(200).end();
-			}else{
-				//console.log(result);
-				res.status(200).json(rows[0]);
+			if (err) {
+				res.status(500).json({
+					status : 500,
+					message : "Error while retrieving data"
+				});
+			} else {
+				res.status(200).json({
+					status : 200,
+					data : rows
+				});
 			}
-		} else {	
-			console.error(e.stack);
-	        res.send(500, "Server crashed.");
-		}
-	});
-	
+		});
+	}
+};
+
+deleteExpDtls=function(req,res){
+	console.log(JSON.stringify(req.body));
+	if(!req.body.userid || !req.body.companyname || !req.body.startdate || !req.body.enddate || !req.body.title){
+		res.status(400).json({
+			status : 400,
+			message : "Bad Request"
+		});
+	}else{
+		var userid = req.body.userid,
+		companyname = req.body.companyname,
+		startdate = req.body.startdate,
+		enddate = req.body.enddate,
+		title = req.body.title
+
+		//,'startdate',startdate,'enddate',enddate
+		//
+		mysql.queryDb('DELETE FROM ?? WHERE ?? = ? AND ??=? AND ?? = ?',['experience','userid',userid,'companyname',companyname,'title',title],function(err,response){
+			if (err) {
+				console.log("Error while deleting experience !!!");
+				console.log(err);
+				res.status(500).json({
+					status : 500,
+					message : "Error while deleting experience !!!"
+				});
+			} else {
+				res.status(200).json({
+					status : 200,
+					message : "Experience has been deleted Succesfully"
+				});
+			}
+		});
+	}
 };
 
 exports.getExpDtls = getExpDtls;
 exports.saveExpDtls=saveExpDtls;
 exports.updateExpDtls=updateExpDtls;
+exports.deleteExpDtls=deleteExpDtls;

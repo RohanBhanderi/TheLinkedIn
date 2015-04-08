@@ -1,0 +1,30 @@
+<div>
+	<div class="modal-header">
+		<h3 class="modal-title">Add Skills</h3>
+	</div>
+
+	<div class="modal-body">
+		<form>
+			<div class="row">
+				<div class="col-xs-4 col-xs-push-1">
+					<h4>Skill</h4>
+				</div>
+				<div class="col-xs-8 col-xs-pull-1">
+					<form class="navbar-form" role="search">
+						<div class="input-group" style="width: 70%;">
+							<input type="text" class="form-control" placeholder="Search"
+								name="searchBox" ng-model="selectedSkill"
+								typeahead="name as name.name for name in skills | filter:$viewValue | limitTo:8"
+								required>
+						</div>
+					</form>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<div class="pull-left text-danger">{{formError}}</div>
+		<button class="btn btn-primary" ng-click="okay()">Add</button>
+		<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+	</div>
+</div>

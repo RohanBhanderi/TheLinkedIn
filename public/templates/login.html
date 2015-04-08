@@ -1,0 +1,128 @@
+<div class="row header" ng-controller="LoginController">
+	<div class="col-xs-6 col-xs-push-1">
+		<!-- <h1> -->
+		<img src="images/logo_132x32_2.png" alt="LinkedIn">
+		<!-- </h1> -->
+	</div>
+	<div class="col-xs-6">
+		<form class="form-inline" name="loginForm" novalidate
+			ng-submit="signIn()">
+			<div class="form-group">
+				<input type="email" ng-model="email" name="email"
+					class="form-control input-sm" placeholder="Enter email" required>
+			</div>
+			<div class="form-group">
+				<input type="password" ng-model="pwd" name="pwd"
+					class="form-control input-sm" placeholder="Password" required>
+			</div>
+			<button type="submit" class="btn btn-default">Sign in</button>
+			<div class="row">
+				<div class="col-xs-4 col-xs-push-2" style="text-align: center;">
+					<p class="help-block alert-danger">{{signInFormError}}</p>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div id="middle" ng-controller="SignUpController">
+	<div class="row">
+		<div class="col-xs-12" style="text-align: center;position: relative;">
+			<p class="help-block alert-danger">{{signUpFormError}}</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-xs-offset-3">
+			<h2>Connect, share ideas, and discover opportunities.</h2>
+		</div>
+	</div>
+	<div class="row row-top-padding">
+		<div class="col-xs-8 col-xs-push-2">
+			<div class="row">
+				<div>
+					<div class="col-xs-2">
+						<img
+							src="https://static.licdn.com/scds/common/u/images/apps/home/guesthome/ghp_international_1_150x150_v1.png"
+							alt="Male Headshot">
+
+					</div>
+					<div class="col-xs-2">
+						<img
+							src="https://static.licdn.com/scds/common/u/images/apps/home/guesthome/ghp_international_2_150x150_v1.png"
+							alt="Female Headshot">
+
+					</div>
+					<div class="col-xs-2">
+						<img
+							src="https://static.licdn.com/scds/common/u/images/apps/home/guesthome/ghp_international_3_150x150_v1.png"
+							alt="Male Headshot">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div>
+					<div class="col-xs-2">
+						<img
+							src="https://static.licdn.com/scds/common/u/images/apps/home/guesthome/ghp_international_4_150x150_v1.png"
+							alt="Male Headshot">
+
+					</div>
+					<div class="col-xs-2">
+						<img
+							src="https://static.licdn.com/scds/common/u/images/apps/home/guesthome/ghp_international_5_150x150_v1.png"
+							alt="Male Headshot">
+
+					</div>
+					<div class="col-xs-2">
+						<img
+							src="https://static.licdn.com/scds/common/u/images/apps/home/guesthome/ghp_international_6_150x150_v1.png"
+							alt="Male Headshot">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-3 col-xs-pull-1">
+			<div class="row">
+				<div class="col-xs-12">
+					<h2>Get started - it's free</h2>
+				</div>
+			</div>
+			<div class="row" style="padding-top: 0px;">
+				<div class="col-xs-12">
+					<h4>Registration takes less than 2 minutes.</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<form name="signUpForm" ng-submit="signUp()" novalidate>
+						<div class="col-xs-6" style="padding-left: 0; padding-right: 1;">
+							<div class="form-group">
+								<input type="text" class="form-control" name="firstName"
+									ng-model="firstName" placeholder="First Name" required>
+							</div>
+						</div>
+						<div class="col-xs-6" style="padding-left: 0; padding-right: 0;">
+							<div class="form-group">
+								<input type="text" class="form-control" name="lastName"
+									ng-model="lastName" placeholder="Last Name" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<input type="email" class="form-control" name="email"
+								ng-model="email" placeholder="Email address" required>
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" name="pwd"
+								ng-model="pwd" placeholder="Password (6 or more characters)"
+								required>
+						</div>
+						<div class="form-group" style="padding-top: 10px;">
+							<button type="submit" class="btn btn-warning btn-block">Join
+								Now</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

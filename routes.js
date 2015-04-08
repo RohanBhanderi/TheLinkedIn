@@ -7,6 +7,7 @@ var rendering = require('./util/rendering'),
     edudtlsController = require('./controllers/edudtls'),
     expdtlsController = require('./controllers/expdtls'),
 	skillsController = require('./controllers/skills'),
+    organisationController = require('./controllers/organisation'),
 	connsController = require('./controllers/conns');
 
 module.exports = function (app, passport) {
@@ -16,29 +17,46 @@ module.exports = function (app, passport) {
     app.get('/home', ensureAuthenticated, indexController.userHome);
 
     // Auth
-    app.get('/register', loginController.registerPage);
-    app.post('/register', loginController.registerPost);
+    app.post('/register', loginController.register);
     app.get('/login', loginController.loginPage);
     app.post('/login', loginController.checkLogin);
-    app.get('/logout', loginController.logout);
+    app.get('/loggedin',loginController.loggedin);
+    app.post('/logout', loginController.logout);
     
     // Profile
-    app.get('/profile', ensureAuthenticated, profileController.showProfile);
-    app.post('/userdtls', ensureAuthenticated, userdtlsController.saveUserDtls);
+    //app.get('/profile', ensureAuthenticated, profileController.showProfile);
+    app.put('/userdtls', ensureAuthenticated, userdtlsController.updateUserDtls);
+    
     app.post('/edudtls', ensureAuthenticated, edudtlsController.saveEduDtls);
+    app.put('/edudtls', ensureAuthenticated, edudtlsController.updateEduDtls);
+    app.delete('/edudtls', ensureAuthenticated, edudtlsController.deleteEduDtls);
+    
     app.post('/expdtls', ensureAuthenticated, expdtlsController.saveExpDtls);
-    app.post('/skills', ensureAuthenticated, skillsController.saveSkills);
-    app.post('/conns', ensureAuthenticated, connsController.saveConns);
+    app.put('/expdtls', ensureAuthenticated, expdtlsController.updateExpDtls);
+    app.delete('/expdtls', ensureAuthenticated, expdtlsController.deleteExpDtls);
 
+    app.post('/skills', ensureAuthenticated, skillsController.saveSkills);
+    app.post('/connections', ensureAuthenticated, connsController.saveConns);
+
+    app.get('/userdtls',ensureAuthenticated,    userdtlsController.getAllUserDtls);
     app.get('/userdtls/:userid',ensureAuthenticated, 	userdtlsController.getUserDtls);
+    app.get('/expdtls/:userid', ensureAuthenticated,    expdtlsController.getExpDtls);
     app.get('/edudtls/:userid', ensureAuthenticated, 	edudtlsController.getEduDtls);
-    app.get('/expdtls/:userid', ensureAuthenticated, 	expdtlsController.getExpDtls);
     app.get('/skills/:userid', 	ensureAuthenticated, 	skillsController.getSkills);
-    app.get('/conns/:userid', 	ensureAuthenticated, 	connsController.getConns);
-   
+    app.get('/connections/:userid', 	ensureAuthenticated, 	connsController.getConns);
+    app.get('/connections/requests/:userid', ensureAuthenticated, connsController.getConnRequests);
+
+    app.get('/companies',ensureAuthenticated,     organisationController.getProfitOrganisations);
+    app.get('/institutions', ensureAuthenticated,    organisationController.getEduOrganisations);
+    app.get('/skills', ensureAuthenticated,    skillsController.getAllSkills);
+
     //Auth Middleware
     function ensureAuthenticated(req, res, next) {
-        if (req.isAuthenticated()) { return next(); }
-        res.redirect('/login');
+        if (req.isAuthenticated()) { 
+            return next(); 
+        } else {
+            //res.redirect('/login');
+           // res.status(401).json({message : "Unauthorized access !!"}); 
+        }
     }
 };
