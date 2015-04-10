@@ -76,6 +76,7 @@ module.exports = function (app, passport) {
     app.post('/connect', connectionController.addConn);
     app.delete('/connect', connectionController.removeConn);
     app.post('/postjob', jobController.postJob);
+    app.del('/deletejob', jobController.deleteJob);
 	
 >>>>>>> origin/master
     //Auth Middleware
