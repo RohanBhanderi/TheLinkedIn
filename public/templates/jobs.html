@@ -19,21 +19,21 @@
 									<div class="row">
 										<div class="col-xs-12">
 											<div class="col-xs-6" style="padding-left: 0;">
-												<h4>{{data.company}}</h4>
+												<h4>{{data.companyname}}</h4>
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-xs-12">
 											<h4>
-												<small>{{data.designation}}</small>
+												<small>{{data.title}}</small>
 											</h4>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-xs-12">
 											<h4>
-												<small>{{data.from}} To {{data.to}}</small>
+												<small>{{data.startdate | date:"MMMM-yyyy"}} To {{data.enddate | date:"MMMM-yyyy"}}</small>
 											</h4>
 										</div>
 									</div>
