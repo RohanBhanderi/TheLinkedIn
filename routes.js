@@ -8,18 +8,15 @@ var rendering = require('./util/rendering'),
     expdtlsController = require('./controllers/expdtls'),
 	skillsController = require('./controllers/skills'),
     organisationController = require('./controllers/organisation'),
-<<<<<<< HEAD
 	connsController = require('./controllers/conns');
 	followController = require('./controllers/follow');
 	connectionController = require('./controllers/connection');
 	jobController = require('./controllers/jobpost');
 	
-=======
 	connsController = require('./controllers/conns'),
 	followController = require('./controllers/follow');
 	connectionController = require('./controllers/connection');
 	jobController = require('./controllers/jobpost');
->>>>>>> origin/master
 
 module.exports = function (app, passport) {
 
@@ -61,24 +58,15 @@ module.exports = function (app, passport) {
     app.get('/institutions', ensureAuthenticated,    organisationController.getEduOrganisations);
     app.get('/skills', ensureAuthenticated,    skillsController.getAllSkills);
 
-	app.get('/follow/:userid', followController.getFollow);
-    app.post('/follow', followController.addFollow);
-<<<<<<< HEAD
-    app.del('/follow', followController.unFollow);
-    app.get('/connect/:userid', connectionController.getConn);
-    app.post('/connect', connectionController.addConn);
-    app.del('/connect', connectionController.removeConn);
-    app.post('/postjob', jobController.postJob);
-    
-=======
-    app.delete('/follow', followController.unFollow);
-    app.get('/connect/:userid', connectionController.getConn);
-    app.post('/connect', connectionController.addConn);
-    app.delete('/connect', connectionController.removeConn);
-    app.post('/postjob', jobController.postJob);
-    app.del('/deletejob', jobController.deleteJob);
+	app.get('/follow/:userid', ensureAuthenticated, followController.getFollow);
+    app.post('/follow', ensureAuthenticated, followController.addFollow);
+    app.del('/follow', ensureAuthenticated, followController.unFollow);
+    app.get('/connect/:userid', ensureAuthenticated, connectionController.getConn);
+    app.post('/connect', ensureAuthenticated, connectionController.addConn);
+    app.del('/connect', ensureAuthenticated, connectionController.removeConn);
+    app.post('/postjob', ensureAuthenticated, jobController.postJob);
+    app.del('/deletejob', ensureAuthenticated, jobController.deleteJob);
 	
->>>>>>> origin/master
     //Auth Middleware
     function ensureAuthenticated(req, res, next) {
         if (req.isAuthenticated()) { 
