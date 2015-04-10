@@ -45,14 +45,15 @@ putItem = function(jobid, title, company, location, details, created, modified,c
 
 //function called on posting a new job 
 postJob = function(req,res){
+  console.log(JSON.stringify(req.body));
   //read request parameters
     var jobid = moment.utc().format("YYYYMMDDHHmmssS");//"1234"   //need to be changed for auto generation
-    var company = req.body.organisationid;
+    var company = "" + req.body.organisationid;
     var title = req.body.title;
     var location = req.body.location;
     var details = req.body.details;
-    var created = "" + dateutil.now();
-    var modified = "" +  dateutil.now();
+    var created = "" + req.body.created;
+    var modified = "" +  req.body.modified;
   
     /* hardcoded values tested to insert data in database
   var jobid = "1234";   //need to be auto

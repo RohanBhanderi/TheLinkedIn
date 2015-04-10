@@ -21,7 +21,7 @@ exports.dbPool = {
 * AWS configurations
 */
 exports.awsConfig = {
-	accessKeyId: '',
-	secretAccessKey: '',
+	accessKeyId: 'AKIAJUOQDC23TB4QH4KA',
+	secretAccessKey: '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',
 	region: 'us-west-2'
 };
