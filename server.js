@@ -36,7 +36,21 @@ app.set('views', __dirname + '/views');
 // swig.setDefaults({ cache: false });
 
 require('./util/auth')(passport);
+
+//routes setup
+app.get(['/','/home','/logout'], function(req,res){
+    res.render("index");
+});
+
+//API endpoints
 require('./routes')(app, passport);
+
+//If request does not map to any route redirect to default route.
+app.get('*', function(req, res){
+  res.render("index");
+});
+
+//Connection pool initialization
 mysql.createConnPool();
 
 app.listen(3000);

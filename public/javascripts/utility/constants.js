@@ -3,8 +3,8 @@
  */
 var urlConstants = {
 	"LOGIN" : "/login",
-	"SIGNUP" : "/register", 		//"/api/user",
-	"IS_LOGGED_IN" : "/loggedin", 	//"/api/user/valid",
+	"SIGNUP" : "/register", 		
+	"IS_LOGGED_IN" : "/loggedin", 
 	"GET_ALL_USERS" : "/userdtls",
 	"LOGOUT" : "/logout",
 	"GET_USER_DETAILS" : "/userdtls/",
@@ -28,7 +28,11 @@ var urlConstants = {
 	"REJECT_CONNECTION_REQUEST" : "/connections/reject",//
 	"GET_ALL_CONNECTIONS" : "/connections/",
 	"DELETE_EDUCATION" : "/edudtls",
-	"DELETE_EMPLOYMENT" : "/expdtls"
+	"DELETE_EMPLOYMENT" : "/expdtls",
+	"GET_JOBS" : "/getjobs/", //
+	"POST_JOB" : "/postjob",
+	"UPDATE_JOB" : "", //
+	"DELETE_JOB" : ""  //
 };
 
 /**

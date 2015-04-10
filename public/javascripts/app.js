@@ -24,7 +24,7 @@ var theLinkedIn = angular.module("myLinkedIn", [ 'ui.router', 'ui.bootstrap' ])
 		url: "/home",
 		templateUrl: "templates/home.html",
 		controller : 'UserHomeController'
-	})
+	});
 	/**
 	 * to remove hash in the URL
 	 */
