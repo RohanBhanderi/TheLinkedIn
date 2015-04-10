@@ -28,7 +28,8 @@ var urlConstants = {
 	"REJECT_CONNECTION_REQUEST" : "/connections/reject",//
 	"GET_ALL_CONNECTIONS" : "/connections/",
 	"DELETE_EDUCATION" : "/edudtls",
-	"DELETE_EMPLOYMENT" : "/expdtls"
+	"DELETE_EMPLOYMENT" : "/expdtls",
+	"POST_JOB" : "/postjob"
 };
 
 /**

@@ -8,7 +8,10 @@ var rendering = require('./util/rendering'),
     expdtlsController = require('./controllers/expdtls'),
 	skillsController = require('./controllers/skills'),
     organisationController = require('./controllers/organisation'),
-	connsController = require('./controllers/conns');
+	connsController = require('./controllers/conns'),
+	followController = require('./controllers/follow');
+	connectionController = require('./controllers/connection');
+	jobController = require('./controllers/jobpost');
 
 module.exports = function (app, passport) {
 
@@ -50,6 +53,14 @@ module.exports = function (app, passport) {
     app.get('/institutions', ensureAuthenticated,    organisationController.getEduOrganisations);
     app.get('/skills', ensureAuthenticated,    skillsController.getAllSkills);
 
+	app.get('/follow/:userid', followController.getFollow);
+    app.post('/follow', followController.addFollow);
+    app.delete('/follow', followController.unFollow);
+    app.get('/connect/:userid', connectionController.getConn);
+    app.post('/connect', connectionController.addConn);
+    app.delete('/connect', connectionController.removeConn);
+    app.post('/postjob', jobController.postJob);
+	
     //Auth Middleware
     function ensureAuthenticated(req, res, next) {
         if (req.isAuthenticated()) { 

@@ -16,3 +16,12 @@ exports.db = {
 exports.dbPool = {
 		"maxSize" : 50
 };
+
+/*
+* AWS configurations
+*/
+exports.awsConfig = {
+	accessKeyId: 'AKIAJDYMZKVOGIBWEMBA',
+	secretAccessKey: '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',
+	region: 'us-west-2'
+};
