@@ -1,0 +1,193 @@
+<div ng-controller="ProfileController" ng-init="getAllData()">
+	<div style="width: 80%; padding-top: 25px;">
+		<div class="row">
+			<div class="col-xs-12">
+				<h4>
+					<strong class="text-primary">Last Login :</strong>
+					{{userLastLogin}}
+				</h4>
+			</div>
+		</div>
+		<div class="row" style="padding-top: 10px;">
+			<div class="col-xs-9">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-4">
+								<img alt="Profile Picture" src="images/default-pic1.png"
+									height="200" width="200">
+							</div>
+							<div class="col-xs-8">
+								<div class="row">
+									<div class="col-xs-12 col-xs-push-1">
+										<h3>{{userName}}</h3>
+									</div>
+								</div>
+								<div class="row" style="padding-top: 15%;">
+									<div class="col-xs-12">
+										<div class="col-xs-4">
+											<h4>
+												<small>Bio</small>
+											</h4>
+										</div>
+										<div class="col-xs-6 col-xs-pull-2">
+											<h4>{{myProperties.headline}}</h4>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12">
+										<div class="col-xs-4">
+											<h4>
+												<small>DOB</small>
+											</h4>
+										</div>
+										<div class="col-xs-6 col-xs-pull-2">
+											<h4>{{myProperties.dob}}</h4>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 col-xs-pull-6">
+										<h1>
+											<small>Summary</small>
+										</h1>
+										<div class="row">
+											<div class="col-xs-12">
+												<h4>{{myProperties.summary}}</h4>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-footer text-center">
+						<div>
+							<button class="btn btn-primary" ng-click="modifyProfile()">
+								Edit Profile</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-default" style="padding: 0;">
+							<div class="panel-body">
+								<h1>
+									<small>Experience</small>
+								</h1>
+								<div ng-repeat="data in employmentData">
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="col-xs-6" style="padding-left: 0;">
+												<h4>{{data.title}}</h4>
+											</div>
+											<div class="col-xs-6">
+												<span class="glyphicon glyphicon-pencil pull-right hoverBtn"
+													ng-click="modifyEmployment(data)"></span>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<h4>
+												<small>{{data.companyname}}</small>
+											</h4>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<h4>
+												<small>{{data.startdate | date:"MMMM-yyyy"}} To {{data.enddate | date:"MMMM-yyyy"}}</small>
+											</h4>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="panel-footer text-center">
+								<button class="btn btn-primary"
+									ng-click="modifyEmployment(null)">Add Employment</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-default" style="padding: 0;">
+							<div class="panel-body">
+								<h1>
+									<small>Skills</small>
+								</h1>
+								<div class="row">
+									<div ng-repeat="data in skillsData">
+										<div class="col-xs-2" style="width: auto;">
+											<h4>{{data.skillname}}</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer text-center">
+								<button class="btn btn-primary" ng-click="modifySkills(null)">Add
+									Skills</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-default" style="padding: 0;">
+							<div class="panel-body">
+								<h1>
+									<small>Education</small>
+								</h1>
+								<div ng-repeat="data in educationData">
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="col-xs-6" style="padding-left: 0;">
+												<h4>{{data.school}}</h4>
+											</div>
+											<div class="col-xs-6">
+												<span class="glyphicon glyphicon-pencil pull-right hoverBtn"
+													ng-click="modifyEducation(data)"></span>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<h4>
+												<small>{{data.degree}}</small>
+											</h4>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<h4>
+												<small>{{data.startdate | date:"MMMM-yyyy"}} To {{data.enddate | date:"MMMM-yyyy"}}</small>
+											</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer text-center">
+								<button class="btn btn-primary" ng-click="modifyEducation(null)">Add
+									Education</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-xs-3">
+				<div class="panel panel-default">
+					<div class="panel-heading"><strong>TheLinkedIn</strong></div>
+					<div class="panel-body">The basic functionality of TheLinkedIn allows users (workers and employers) to create profiles and "connections" to each other in an online social network which may represent real-world professional relationships. Users can invite anyone (whether a site user or not) to become a connection.</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

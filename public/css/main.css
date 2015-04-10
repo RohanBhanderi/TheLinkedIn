@@ -1,0 +1,110 @@
+@CHARSET "ISO-8859-1";
+
+.rootBackground {
+	/* background-color: #E2E2E2; */
+	background-image: url('../images/home-bg.png');
+	min-height: 100%;
+}
+
+#indexContainer {
+	padding: 0;
+	overflow-x: hidden;
+	height: 100%;
+}
+
+.header {
+	-webkit-box-shadow: 0 1px 4px #ccc;
+	-moz-box-shadow: 0 1px 4px #ccc;
+	box-shadow: 0 1px 4px #ccc;
+	z-index: 200;
+	background: #F4F4F4;
+	border-bottom: 1px solid #CDCDCD;
+	position: relative;
+	top: 0;
+	/* width: 100%; */
+	display: block;
+	line-height: 1.2;
+	color: #000;
+	padding-top: 10px;
+	/* padding-left: 10px; */
+}
+
+#middle{
+	background: white;
+	padding-bottom: 10%;
+}
+
+#homeHeader {
+	/* -webkit-box-shadow: 0 1px 4px #ccc; */
+	/* -moz-box-shadow: 0 1px 4px #ccc;
+	box-shadow: 0 1px 4px #ccc; */
+	z-index: 200;
+	background-color: #3f3f3f;
+	background-image: -webkit-linear-gradient(#696969 0%, #3f3f3f 100%);
+	background-image: -moz-linear-gradient(#696969 0%, #3f3f3f 100%);
+	background-image: -o-linear-gradient(#696969 0%, #3f3f3f 100%);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#696969),
+		to(#3f3f3f));
+	background-image: linear-gradient(#696969 0%, #3f3f3f 100%);
+	/* border-bottom: 1px solid #CDCDCD; */
+	position: relative;
+	top: 0;
+	/* width: 100%; */
+	display: block;
+	line-height: 1.2;
+	color: #000;
+	padding-top: 10px;
+	/* padding-left: 10px; */
+}
+
+#homeSecHeader {
+	background-color: #1a1a1a;
+	background-image: -webkit-linear-gradient(#1a1a1a 0%, #303030 100%);
+	background-image: -moz-linear-gradient(#1a1a1a 0%, #303030 100%);
+	background-image: -o-linear-gradient(#1a1a1a 0%, #303030 100%);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1a1a1a),
+		to(#303030));
+	background-image: linear-gradient(#1a1a1a 0%, #303030 100%);
+	z-index: 1;
+	width: 100%;
+	/* display: list-item; */
+}
+
+ul.nav.nav-pills {
+	background-color: #1a1a1a;
+	background-image: -webkit-linear-gradient(#1a1a1a 0%, #303030 100%);
+	background-image: -moz-linear-gradient(#1a1a1a 0%, #303030 100%);
+	background-image: -o-linear-gradient(#1a1a1a 0%, #303030 100%);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1a1a1a),
+		to(#303030));
+	background-image: linear-gradient(#1a1a1a 0%, #303030 100%);
+	padding-left: 18%;
+}
+
+.tab-heading {
+	background-color: #1a1a1a;
+	background-image: -webkit-linear-gradient(#1a1a1a 0%, #303030 100%);
+	background-image: -moz-linear-gradient(#1a1a1a 0%, #303030 100%);
+	background-image: -o-linear-gradient(#1a1a1a 0%, #303030 100%);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1a1a1a),
+		to(#303030));
+	background-image: linear-gradient(#1a1a1a 0%, #303030 100%);
+}
+
+div.tab-content {
+	padding-left: 18%;
+}
+
+ul.dropdown-menu {
+	width: inherit;
+}
+
+.row-top-padding {
+	/* margin-top: 20px; */
+	padding-top: 5%;
+}
+
+span:hover.hoverBtn {
+	/* background: #CF4647; */
+	cursor: pointer;
+}

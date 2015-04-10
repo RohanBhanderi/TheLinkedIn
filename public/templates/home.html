@@ -1,0 +1,73 @@
+<div>
+	<div class="row" id="homeHeader" ng-controller="UserHomeController"
+		ng-init="loadData()">
+		<div class="col-xs-2 col-xs-push-2">
+			<a href="#"><img alt="LinkedIn" src="images/logo_in.png"></a>
+		</div>
+		<div class="col-xs-6 col-xs-push-2" style="margin-top: -7px;">
+			<form class="navbar-form" role="search"
+				ng-submit="showSearchResult()">
+				<div class="input-group" style="width: 70%;">
+					<input type="text" class="form-control" placeholder="Search"
+						name="searchBox" ng-model="selectedInput"
+						ng-change="searchUserNames()"
+						typeahead="name as name.name for name in searchInputs | filter:$viewValue | limitTo:8">
+					<div class="input-group-btn" style="padding-left: 4px;">
+						<button class="btn btn-primary" type="submit">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-xs-4 col-xs-push-2">
+			<span class="dropdown" dropdown> <a href
+				class="dropdown-toggle" dropdown-toggle> <span
+					class="glyphicon glyphicon-user"
+					style="font-size: 25px; padding-right: 5%; vertical-align: middle;">
+				</span>
+			</a>
+				<ul class="dropdown-menu dropdown-menu-right" style="top: inherit;">
+					<li ng-repeat="request in userConnectionRequests"><a href
+						ng-click="$parent.selectedConnectionRequest(request)">{{request.name}}</a>
+						<span class="glyphicon glyphicon-ok" style="cursor: pointer;"
+						ng-click="acceptRequest(request)"></span> <span
+						class="glyphicon glyphicon-remove" style="cursor: pointer;"
+						ng-click="declineRequest(request)"></span></li>
+				</ul>
+			</span> <span class="dropdown" dropdown> <a href
+				class="dropdown-toggle" dropdown-toggle> <img
+					src="images/default-pic1.png" height="30" width="30">
+			</a>
+				<ul class="dropdown-menu" style="top: inherit;">
+					<li ng-repeat="option in userDropdownOptions"><a href
+						ng-click="$parent.userDropdownSelected(option)">{{option}}</a></li>
+				</ul>
+			</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 tab-heading">
+			<div class="row">
+				<div class="col-xs-12 col-xs-push-2">
+					<button class="btn btn-link" ng-click="tabActive('profile')">Home</button>
+					<button class="btn btn-link" ng-click="tabActive('profile')">Profile</button>
+					<button class="btn btn-link" ng-click="tabActive('connection')">Connections</button>
+					<button class="btn btn-link" ng-click="tabActive('education')">Education</button>
+					<button class="btn btn-link" ng-click="tabActive('jobs')">Jobs</button>
+					<button class="btn btn-link" ng-click="tabActive('profile')">Interests</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-switch on="showTabData" class="tab-content">
+		<div ng-switch-when="true">
+			<div ng-include="getTemplate()"></div>
+		</div>
+		<div ng-switch-when="false">
+			<div ng-include="'templates/searchProfile.html'"
+				ng-controller="SearchResultController"
+				ng-init="getResultData($parent.$$prevSibling.selectedInput)"></div>
+		</div>
+	</div>
+</div>

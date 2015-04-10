@@ -1,0 +1,84 @@
+<div>
+	<div class="modal-header">
+		<h3 class="modal-title">Add Experience</h3>
+	</div>
+
+	<div class="modal-body">
+		<form>
+			<div class="row">
+				<div class="col-xs-4 col-xs-push-1">
+					<h4>Company</h4>
+				</div>
+				<div class="col-xs-8 col-xs-pull-1">
+					<form class="navbar-form" role="search">
+						<div class="input-group" style="width: 70%;">
+							<input type="text" class="form-control" placeholder="Search"
+								name="searchBox" ng-model="selectedCompany"
+								typeahead="name as name.name for name in companies | filter:$viewValue | limitTo:8"
+								required>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="col-xs-6">
+						<div class="col-xs-2">
+							<h4>From</h4>
+						</div>
+						<div class="col-xs-5">
+							<div class="form-group">
+								<select class="form-control" ng-model="selectedFromMonth">
+									<option ng-repeat="month in months">{{month}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div class="form-group">
+								<select class="form-control" ng-model="selectedFromYear"
+									required>
+									<option ng-repeat="year in years">{{year}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="col-xs-2">
+							<h4>To</h4>
+						</div>
+						<div class="col-xs-5">
+							<div class="form-group">
+								<select class="form-control" ng-model="selectedToMonth" required>
+									<option ng-repeat="month in months">{{month}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div class="form-group">
+								<select class="form-control" ng-model="selectedToYear">
+									<option ng-repeat="year in years">{{year}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4 col-xs-push-1">
+					<h4>Designation</h4>
+				</div>
+				<div class="col-xs-8 col-xs-pull-1" style="width: 50%;">
+					<input type="text" class="form-control" ng-model="designation"
+						placeholder="Designation" required>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+		<div class="pull-left text-danger">{{formError}}</div>
+		<button class="btn btn-primary" ng-click="ok()">Save</button>
+		<button ng-if = "deleteOption" class="btn btn-danger" ng-click="deleteCall()">Delete</button>
+		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	</div>
+</div>

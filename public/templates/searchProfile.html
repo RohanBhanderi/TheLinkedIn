@@ -1,0 +1,177 @@
+<div ng-controller="ProfileController" ng-init="getAllData()">
+	<div style="width: 80%; padding-top: 25px;">
+		<div class="row" style="padding-top: 10px;">
+			<div class="col-xs-9">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-4">
+								<img alt="Profile Picture" src="images/default-pic1.png"
+									height="200" width="200">
+							</div>
+							<div class="col-xs-8">
+								<div class="row">
+									<div class="col-xs-12">
+										<h3>{{userDetails.name}}</h3>
+									</div>
+								</div>
+								<div class="row" style="padding-top: 15%;">
+									<div class="col-xs-12">
+										<div class="col-xs-4">
+											<h4>
+												<small>Gender</small>
+											</h4>
+										</div>
+										<div class="col-xs-6 col-xs-pull-2">
+											<h4>{{userProperties.gender}}</h4>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12">
+										<div class="col-xs-4">
+											<h4>
+												<small>DOB</small>
+											</h4>
+										</div>
+										<div class="col-xs-6 col-xs-pull-2">
+											<h4>{{userProperties.dob}}</h4>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 col-xs-pull-6">
+										<h1>
+											<small>Summary</small>
+										</h1>
+										<div class="row">
+											<div class="col-xs-12">
+												<h4>{{userProperties.summary}}</h4>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-footer text-center">
+						<div ng-switch on="isConnected">
+							<button ng-switch-when="false" class="btn btn-primary"
+								ng-click="connectUsers()">Connect</button>
+							<div ng-switch-when="true" class="text-primary">
+								<h4>{{connectionStatus}}</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-default" style="padding: 0;">
+							<div class="panel-body">
+								<h1>
+									<small>Experience</small>
+								</h1>
+								<div ng-repeat="data in userEmploymentData">
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="col-xs-6" style="padding-left: 0;">
+												<h4>{{data.designation}}</h4>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<h4>
+												<small>{{data.company}}</small>
+											</h4>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<h4>
+												<small>{{data.from}} To {{data.to}}</small>
+											</h4>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="panel-footer text-center"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-default" style="padding: 0;">
+							<div class="panel-body">
+								<h1>
+									<small>Skills</small>
+								</h1>
+								<div class="row">
+									<div ng-repeat="data in userSkillsData">
+										<div class="col-xs-2">
+											<h4>{{data.name}}</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer text-center"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-default" style="padding: 0;">
+							<div class="panel-body">
+								<h1>
+									<small>Education</small>
+								</h1>
+								<div ng-repeat="data in userEducationData">
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="col-xs-6" style="padding-left: 0;">
+												<h4>{{data.institution}}</h4>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<h4>
+												<small>{{data.degree}}</small>
+											</h4>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<h4>
+												<small>{{data.from}} To {{data.to}}</small>
+											</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer text-center"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-xs-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<strong>MyLinkedIn</strong>
+					</div>
+					<div class="panel-body">The basic functionality of MyLinkedIn
+						allows users (workers and employers) to create profiles and
+						"connections" to each other in an online social network which may
+						represent real-world professional relationships. Users can invite
+						anyone (whether a site user or not) to become a connection.</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
