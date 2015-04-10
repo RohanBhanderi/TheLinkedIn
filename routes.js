@@ -66,7 +66,9 @@ module.exports = function (app, passport) {
     app.del('/connect', ensureAuthenticated, connectionController.removeConn);
     app.post('/postjob', ensureAuthenticated, jobController.postJob);
     app.del('/deletejob', ensureAuthenticated, jobController.deleteJob);
-	
+	app.get('/getjob/:title', jobController.getJob);
+    app.get('/getjob', jobController.getAllJobs);
+    
     //Auth Middleware
     function ensureAuthenticated(req, res, next) {
         if (req.isAuthenticated()) { 
