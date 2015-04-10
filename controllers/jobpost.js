@@ -103,9 +103,7 @@ deleteJob = function(req,res){
 
 };
 
-
 exports.deleteJob=deleteJob
 exports.deleteItem=deleteItem;
 exports.postJob=postJob;
 exports.putItem=putItem;
->>>>>>> origin/master
