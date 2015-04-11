@@ -1,28 +1,21 @@
-
-var rendering = require('./util/rendering'),
-    indexController = require('./controllers/index'),
-    loginController = require('./controllers/login'),
+var loginController = require('./controllers/login'),
     profileController = require('./controllers/profile'),
     userdtlsController = require('./controllers/userdtls'),
     edudtlsController = require('./controllers/edudtls'),
     expdtlsController = require('./controllers/expdtls'),
 	skillsController = require('./controllers/skills'),
     organisationController = require('./controllers/organisation'),
-	connsController = require('./controllers/conns');
-	followController = require('./controllers/follow');
+	followController = require('./controllers/follow'),
+	connectionController = require('./controllers/connection'),
+	jobController = require('./controllers/jobpost'),
+	followController = require('./controllers/follow'),
 	connectionController = require('./controllers/connection');
-	jobController = require('./controllers/jobpost');
-	
-	connsController = require('./controllers/conns'),
-	followController = require('./controllers/follow');
-	connectionController = require('./controllers/connection');
-	jobController = require('./controllers/jobpost');
 
 module.exports = function (app, passport) {
 
     // Home
-    app.get('/', indexController.home);
-    app.get('/home', ensureAuthenticated, indexController.userHome);
+    app.get('/', function(req,res){ res.render("index"); });
+    app.get(['/home','/logout'], ensureAuthenticated, function(req,res){ res.render("index"); });
 
     // Auth
     app.post('/register', loginController.register);
@@ -43,29 +36,28 @@ module.exports = function (app, passport) {
     app.put('/expdtls', ensureAuthenticated, expdtlsController.updateExpDtls);
     app.delete('/expdtls', ensureAuthenticated, expdtlsController.deleteExpDtls);
 
+     app.get('/skills/:userid',     ensureAuthenticated,    skillsController.getSkills);
     app.post('/skills', ensureAuthenticated, skillsController.saveSkills);
-    app.post('/connections', ensureAuthenticated, connsController.saveConns);
 
     app.get('/userdtls',ensureAuthenticated,    userdtlsController.getAllUserDtls);
     app.get('/userdtls/:userid',ensureAuthenticated, 	userdtlsController.getUserDtls);
     app.get('/expdtls/:userid', ensureAuthenticated,    expdtlsController.getExpDtls);
     app.get('/edudtls/:userid', ensureAuthenticated, 	edudtlsController.getEduDtls);
-    app.get('/skills/:userid', 	ensureAuthenticated, 	skillsController.getSkills);
-    app.get('/connections/:userid', 	ensureAuthenticated, 	connsController.getConns);
-    app.get('/connections/requests/:userid', ensureAuthenticated, connsController.getConnRequests);
-
+   
     app.get('/companies',ensureAuthenticated,     organisationController.getProfitOrganisations);
     app.get('/institutions', ensureAuthenticated,    organisationController.getEduOrganisations);
     app.get('/skills', ensureAuthenticated,    skillsController.getAllSkills);
 
+    //Connections
 	app.get('/follow/:userid', ensureAuthenticated, followController.getFollow);
     app.post('/follow', ensureAuthenticated, followController.addFollow);
-    app.del('/follow', ensureAuthenticated, followController.unFollow);
+    app.delete('/follow', ensureAuthenticated, followController.unFollow);
     app.get('/connect/:userid', ensureAuthenticated, connectionController.getConn);
     app.post('/connect', ensureAuthenticated, connectionController.addConn);
-    app.del('/connect', ensureAuthenticated, connectionController.removeConn);
+    app.delete('/connect', ensureAuthenticated, connectionController.removeConn);
     app.post('/postjob', ensureAuthenticated, jobController.postJob);
-    app.del('/deletejob', ensureAuthenticated, jobController.deleteJob);
+    app.delete('/deletejob', ensureAuthenticated, jobController.deleteJob);
+    app.get('/connect/:userid/:secuserid', ensureAuthenticated, connectionController.checkUsersConn);
 	
     //Auth Middleware
     function ensureAuthenticated(req, res, next) {

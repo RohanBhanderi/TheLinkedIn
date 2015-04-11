@@ -11,8 +11,8 @@ var urlConstants = {
 	"GET_EMPLOYMENT_DETAILS":"/expdtls/",
 	"GET_EDUCATION_DETAILS":"/edudtls/",
 	"GET_SKILLS_DETAILS":"/skills/",
-	"GET_COMPANIES":"/companies",//
-	"GET_INSTITUTIONS":"/institutions",//
+	"GET_COMPANIES":"/companies",		//
+	"GET_INSTITUTIONS":"/institutions",	//
 	"GET_SKILLS":"/skills",
 	"ADD_EXPERIENCE" : "/expdtls",
 	"ADD_EDUCATION" : "/edudtls",
@@ -21,12 +21,12 @@ var urlConstants = {
 	"UPDATE_EXPERIENCE" : "/expdtls",
 	"UPDATE_EDUCATION" : "/edudtls",
 	"UPDATE_SKILLS" : "/skills",
-	"CHECK_CONNECTION" : "/connections/valid/",//
-	"CONNECT_USERS" : "/connections",//
-	"GET_USER_CONNECTION_REQUEST" : "/connections/requests/",//
-	"ACCEPT_CONNECTION_REQUEST" : "/connections/accept",//
-	"REJECT_CONNECTION_REQUEST" : "/connections/reject",//
-	"GET_ALL_CONNECTIONS" : "/connections/",
+	"CHECK_CONNECTION" : "/connect/",
+	"CONNECT_USERS" : "/connect",
+	"GET_USER_CONNECTION_REQUEST" : "/connect/requests/",//
+	"ACCEPT_CONNECTION_REQUEST" : "/connect/accept",//
+	"REJECT_CONNECTION_REQUEST" : "/connect/reject",//
+	"GET_ALL_CONNECTIONS" : "/connect/",
 	"DELETE_EDUCATION" : "/edudtls",
 	"DELETE_EMPLOYMENT" : "/expdtls",
 	"GET_JOBS" : "/getjobs/", //

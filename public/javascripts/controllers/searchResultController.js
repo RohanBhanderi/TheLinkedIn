@@ -16,13 +16,13 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 	$scope.connectUsers = function(){
 		
 		var params = {
-				firstUser : $rootScope.userid,
-				secondUser : $scope.userDetails.email
+			userid : $rootScope.userid,
+			secuserid : $scope.userDetails.userid
 		};
 		
 		DataService.postData(urlConstants.CONNECT_USERS,params).success(function(response){
 			$scope.isConnected = true;
-			$scope.connectionStatus = "Request Pending";
+			$scope.connectionStatus = "Connected";
 		}).error(function(err){
 			$scope.connectionStatus = err.message;
 		});
@@ -34,7 +34,7 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 	 */
 	function getUserDetails(){
 		
-		var uri = urlConstants.GET_USER_DETAILS+$scope.userDetails.email;
+		var uri = urlConstants.GET_USER_DETAILS+$scope.userDetails.userid;
 		DataService.getData(uri,[]).success(function(response){
 			$scope.userProperties = response.data[0];
 		}).error(function(err){
@@ -47,7 +47,7 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 	 */
 	function getEmploymentList() {
 		var uriEmployment = urlConstants.GET_EMPLOYMENT_DETAILS
-				+ $scope.userDetails.email;
+				+ $scope.userDetails.userid;
 
 		DataService.getData(uriEmployment, []).success(function(response) {
 			$scope.userEmploymentData = response.data;
@@ -61,7 +61,7 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 	 */
 	function getEducationList() {
 		var uriEducation = urlConstants.GET_EDUCATION_DETAILS
-				+ $scope.userDetails.email;
+				+ $scope.userDetails.userid;
 		DataService.getData(uriEducation, []).success(function(response) {
 			$scope.userEducationData = response.data;
 		}).error(function(err) {
@@ -73,7 +73,7 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 	 * Function for getting Skills data for the user
 	 */
 	function getSkillsList() {
-		var uriSkills = urlConstants.GET_SKILLS_DETAILS + $scope.userDetails.email;
+		var uriSkills = urlConstants.GET_SKILLS_DETAILS + $scope.userDetails.userid;
 		DataService.getData(uriSkills, []).success(function(response) {
 			$scope.userSkillsData = response.data;
 		}).error(function(err) {
@@ -86,25 +86,27 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 	 */
 	function getConnection(){
 		
-		var uri = urlConstants.CHECK_CONNECTION +$rootScope.userid + "/"+$scope.userDetails.email;
+		var uri = urlConstants.CHECK_CONNECTION +$rootScope.userid + "/"+$scope.userDetails.userid;
 		
 		DataService.getData(uri,[]).success(function(response){
 			if(response.data.length==0){
 				$scope.isConnected = false;
 			}else{
-				switch(response.data[0].status){
-					case "pending": 
-									$scope.connectionStatus = "Request Pending";
-									$scope.isConnected = true;
-									break;
-					case "active": 
-									$scope.connectionStatus = "Connected";
-									$scope.isConnected = true;
-									break;
-					case "default":
-									$scope.isConnected = false;
-									break;
-				}
+				$scope.isConnected = true;
+				$scope.connectionStatus = "Connected";
+				// switch(response.data[0].status){
+				// 	case "pending": 
+				// 					$scope.connectionStatus = "Request Pending";
+				// 					$scope.isConnected = true;
+				// 					break;
+				// 	case "active": 
+				// 					$scope.connectionStatus = "Connected";
+				// 					$scope.isConnected = true;
+				// 					break;
+				// 	case "default":
+				// 					$scope.isConnected = false;
+				// 					break;
+				// }
 			}
 		}).error(function(err){
 			console.log(err);

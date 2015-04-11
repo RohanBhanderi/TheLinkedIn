@@ -11,7 +11,7 @@
 							</div>
 							<div class="col-xs-8">
 								<div class="row">
-									<div class="col-xs-12">
+									<div class="col-xs-12 col-xs-push-1">
 										<h3>{{userDetails.name}}</h3>
 									</div>
 								</div>
@@ -19,11 +19,11 @@
 									<div class="col-xs-12">
 										<div class="col-xs-4">
 											<h4>
-												<small>Gender</small>
+												<small>Bio</small>
 											</h4>
 										</div>
 										<div class="col-xs-6 col-xs-pull-2">
-											<h4>{{userProperties.gender}}</h4>
+											<h4>{{userProperties.headline}}</h4>
 										</div>
 									</div>
 								</div>
@@ -59,8 +59,8 @@
 						<div ng-switch on="isConnected">
 							<button ng-switch-when="false" class="btn btn-primary"
 								ng-click="connectUsers()">Connect</button>
-							<div ng-switch-when="true" class="text-primary">
-								<h4>{{connectionStatus}}</h4>
+							<div ng-switch-when="true" class="text-success">
+								<h4><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>&nbsp;{{connectionStatus}}</h4>
 							</div>
 						</div>
 					</div>
@@ -77,21 +77,21 @@
 									<div class="row">
 										<div class="col-xs-12">
 											<div class="col-xs-6" style="padding-left: 0;">
-												<h4>{{data.designation}}</h4>
+												<h4>{{data.title}}</h4>
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-xs-12">
 											<h4>
-												<small>{{data.company}}</small>
+												<small>{{data.companyname}}</small>
 											</h4>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-xs-12">
 											<h4>
-												<small>{{data.from}} To {{data.to}}</small>
+												<small>{{data.startdate | date:"MMMM-yyyy"}} To {{data.enddate | date:"MMMM-yyyy"}}</small>
 											</h4>
 										</div>
 									</div>
@@ -113,7 +113,7 @@
 								<div class="row">
 									<div ng-repeat="data in userSkillsData">
 										<div class="col-xs-2">
-											<h4>{{data.name}}</h4>
+											<h4>{{data.skillname}}</h4>
 										</div>
 									</div>
 								</div>
@@ -134,7 +134,7 @@
 									<div class="row">
 										<div class="col-xs-12">
 											<div class="col-xs-6" style="padding-left: 0;">
-												<h4>{{data.institution}}</h4>
+												<h4>{{data.school}}</h4>
 											</div>
 										</div>
 									</div>
@@ -148,7 +148,7 @@
 									<div class="row">
 										<div class="col-xs-12">
 											<h4>
-												<small>{{data.from}} To {{data.to}}</small>
+												<small>{{data.startdate | date:"MMMM-yyyy"}} To {{data.enddate | date:"MMMM-yyyy"}}</small>
 											</h4>
 										</div>
 									</div>
