@@ -1,9 +1,15 @@
 'use strict';
 theLinkedIn.controller("EditOrgProfileCtrl", function($scope, $modalInstance,isEdit,$rootScope,DataService,$window) {
-
-	$scope.motto = isEdit.motto.S;
-	$scope.url = isEdit.url.S;
-	$scope.overview = isEdit.overview.S;
+	//console.log("isEdit: " + isEdit + ":: typeof isEdit: "+ (typeof isEdit));
+	if(isEdit) {
+		$scope.motto = isEdit.motto.S;
+		$scope.url = isEdit.url.S;
+		$scope.overview = isEdit.overview.S;
+	} else {
+		$scope.motto = "";
+		$scope.url = "";
+		$scope.overview = "";
+	}
 
 	$scope.okay = function() {
 		if($scope.motto === "" || $scope.url=== "" || $scope.overview === ""){

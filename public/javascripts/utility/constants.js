@@ -29,10 +29,9 @@ var urlConstants = {
 	"GET_ALL_CONNECTIONS" : "/connect/",
 	"DELETE_EDUCATION" : "/edudtls",
 	"DELETE_EMPLOYMENT" : "/expdtls",
-	"GET_JOBS" : "/getjobs/", //
+	"GET_JOBS" : "/getjob", 
 	"POST_JOB" : "/postjob",
-	"UPDATE_JOB" : "", //
-	"DELETE_JOB" : "",  //
+	"DELETE_JOB" : "/deletejob",  
 	"GET_ORG_USER_DETAILS" : "/getOrgDtls/",
 	"UPDATE_ORG_PROFILE" : "/saveOrgDtls"
 };

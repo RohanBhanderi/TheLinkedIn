@@ -43,8 +43,8 @@ theLinkedIn.controller("EditJobsCtrl", function($scope, $modalInstance,isEdit,$r
 			var newDate = new Date($scope.fromdate);
 			var formattedFrom = newDate.getDate()+"-"+dataConstants.MONTH_NAMES[newDate.getMonth()]+"-"+newDate.getFullYear();
 			
-			var newDate = new Date($scope.todate);
-			var formattedTo = newDate.getDate()+"-"+dataConstants.MONTH_NAMES[newDate.getMonth()]+"-"+newDate.getFullYear();
+			var newDate2 = new Date($scope.todate);
+			var formattedTo = newDate2.getDate()+"-"+dataConstants.MONTH_NAMES[newDate2.getMonth()]+"-"+newDate2.getFullYear();
 			
 			if (isEdit) {
 

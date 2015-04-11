@@ -3,7 +3,7 @@ theLinkedIn.controller("JobsCtrl", function($scope, $rootScope, $modal,
 		$location, DataService) {
 
 	$scope.getAllJobs = function(){
-		getJobsList();
+		getJobDetails();
 	}
 
 	/**
@@ -31,11 +31,14 @@ theLinkedIn.controller("JobsCtrl", function($scope, $rootScope, $modal,
 		});
 	};
 
-	function getJobsList(){
-		var uri = urlConstants.GET_JOBS + $rootScope.userid;
-		
+	/**
+	 * Function to get job details
+	 */
+	function getJobDetails(){
+		var uri = urlConstants.GET_JOBS;//+$rootScope.userid
 		DataService.getData(uri,[]).success(function(response){
-			$scope.jobsList = response.data;
+			console.log("Jobs " + response.result);
+			$scope.jobData = response.result;
 		}).error(function(err){
 			console.log(err.message);
 		});

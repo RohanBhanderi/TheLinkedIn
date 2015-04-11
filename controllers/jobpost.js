@@ -72,8 +72,8 @@ postJob = function(req,res){
     var title = req.body.title;
     var loc = req.body.loc;
     var details = req.body.details;
-    var created = "" + dateutil.now();
-    var modified = "" +  dateutil.now();
+    var created = "" + req.body.created;
+    var modified = "" +  req.body.modified;
 
     //call function to insert new job in dynamo db
     putItem(jobid, title, company, loc, details, created, modified,function(err, data) {
@@ -137,7 +137,7 @@ getJob = function(req,res){
         console.log(err);
         res.status(500).json({status : 500,message : "Error while gettin job details"});
       } else {
-        res.status(200).json({status : 200,message : "Successfull", response:data});
+        res.status(200).json({status : 200,message : "Successfull", response:data.Items});
       }
     });
 
@@ -158,6 +158,25 @@ getAllItems = function(cb) {
 	});
 };
 
+//TODO need to pass the hashkey
+getAllJobsForOrg = function(cb) {
+  db.query({
+    "TableName": tableName,
+    "KeyConditions" : {
+      "jobid": {
+        "ComparisonOperator": "EQ", 
+        "AttributeValueList": [ { "S" : hashkey } ]
+      }
+    },
+    "Limit": 100
+  }, function(err, data) {
+    if (err) {
+      cb(err,data);
+    } else {
+      cb(null,data);
+    }
+  });
+};
 
 //function called to get all jobs 
 getAllJobs = function(req,res){
@@ -167,14 +186,14 @@ getAllJobs = function(req,res){
        console.log(err);
        res.status(500).json({status : 500,message : "Error while getting all job details"});
      } else {
-       res.status(200).json({status : 200,message : "Successfull", response:data});
+      console.log(JSON.stringify(data.Items));
+       res.status(200).json({status : 200,message : "Successfull", result:data.Items});
      }
    });
 
 };
 
 exports.getAllJobs=getAllJobs;
-exports.getAllItems=getAllItems;
 exports.deleteJob=deleteJob;
 exports.postJob=postJob;
 exports.getJob=getJob;

@@ -11,6 +11,7 @@
 						</div>
 					</div>
 				</div>
+
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="panel panel-default" style="padding: 0;">
@@ -18,55 +19,55 @@
 								<h1>
 									<small>Jobs Posted</small>
 								</h1>
-								<div ng-repeat="data in jobsList">
+								<div ng-repeat="data in jobData">
 									<div class="row">
 										<div class="col-xs-12">
 											<div class="col-xs-6" style="padding-left: 0;">
-												<h4>{{data.title}}</h4>
+												<h4>{{data.title.S}}</h4>
 											</div>
 											<div class="col-xs-6">
-												<span class="glyphicon glyphicon-pencil pull-right hoverBtn"
-												ng-click="modifyJobs(data)"></span>
+												<!-- <span class="glyphicon glyphicon-remove pull-right hoverBtn"
+													ng-click="deleteCall(data)"></span> -->
+												<!-- <button class="btn btn-danger pull-right" ng-click="deleteCall(data)">Delete</button> -->
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-xs-12">
 											<h4>
-												<small>{{data.company}}</small>
+												<small>{{data.location.S}}</small>
 											</h4>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-xs-12">
 											<h4>
-												<small>{{data.location}}</small>
+												<small>{{data.created.S | date:"dd-MMM-yyyy"}} To {{data.modified.S | date:"dd-MMM-yyyy"}}</small>
 											</h4>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-xs-12">
 											<h4>
-												<small>{{data.created | date:'medium'}} To {{data.modified | date:'medium'}}</small>
-											</h4>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-xs-12">
-											<h4>
-												<small>{{data.details}}</small>
+												<small>{{data.details.S}}</small>
 											</h4>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="panel-footer text-center">
-								<button class="btn btn-primary"
+								<div ng-show="usertype == 'org'">
+									<button class="btn btn-primary"
 								ng-click="modifyJobs(null)">Post Job</button>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+
+
+
+
 			</div>
 		</div>
 	</div>

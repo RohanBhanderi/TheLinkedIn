@@ -5,7 +5,8 @@ theLinkedIn.controller("OrgProfileController", function($scope, $rootScope, $mod
 	$scope.getAllData = function() {
 		
 		getUserDetails();
-	}
+		getJobDetails();
+	};
 	
 	/**
 	 * Edit profile button callback
@@ -30,6 +31,21 @@ theLinkedIn.controller("OrgProfileController", function($scope, $rootScope, $mod
 		}, function() {
 		});
 	};
+
+	$scope.deleteCall = function(data){
+		var uri = urlConstants.DELETE_JOB;
+		var params = {
+					jobid : data.jobid.S
+				}
+		console.log(JSON.stringify(params));
+		DataService.deleteData(uri,params).success(function(response){
+			//$modalInstance.close(true);
+			getJobDetails();
+		}).error(function(err){
+			//$modalInstance.close(false);
+		});
+	};
+
 	
 	/**
 	 * Function to get user profile details
@@ -37,11 +53,28 @@ theLinkedIn.controller("OrgProfileController", function($scope, $rootScope, $mod
 	function getUserDetails(){
 		var uri = urlConstants.GET_ORG_USER_DETAILS+$rootScope.userid;
 		DataService.getData(uri,[]).success(function(response){
-			console.log(response.data);
+			//console.log("Org " + response.data);
 			$scope.myProperties = response.data[0];
+			// if(response.data.length == 0) {
+			// 	$scope.myProperties = {};
+			// } else {
+			// 	$scope.myProperties = response.data[0];
+			// }
 		}).error(function(err){
 			console.log(err.message);
 		});
 	}
 
+	/**
+	 * Function to get job details
+	 */
+	function getJobDetails(){
+		var uri = urlConstants.GET_JOBS;//+$rootScope.userid
+		DataService.getData(uri,[]).success(function(response){
+			console.log("Jobs " + response.result);
+			$scope.jobData = response.result;
+		}).error(function(err){
+			console.log(err.message);
+		});
+	}
 });
