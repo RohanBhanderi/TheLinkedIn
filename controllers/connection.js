@@ -74,7 +74,6 @@ getConn=function(req,res){
 			if(result.length!==0){
 				var array = [];
 				result.forEach(function(connection){
-					console.log(connection.userid + " :: "+ userid + " :: " + (connection.userid === userid));
 					if(connection.userid == userid){
 						array.push(connection.organisationid);
 					}else{

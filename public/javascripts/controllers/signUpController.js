@@ -20,10 +20,10 @@ theLinkedIn.controller("SignUpController", function($scope,$rootScope, $location
 			console.log(JSON.stringify(params));
 			DataService.postData(urlConstants.SIGNUP, params).success(
 					function(response) {
-						$window.sessionStorage.userid = response.email;
+						$window.sessionStorage.userid = response.userid;
 						$window.sessionStorage.userName = response.name;
 						$window.sessionStorage.userLastLogin = response.lastLogin;
-						$rootScope.userid = response.email;
+						$rootScope.userid = response.userid;
 						$rootScope.userName = response.name;
 						$rootScope.userLastLogin = response.lastLogin;
 						$location.path('/home');

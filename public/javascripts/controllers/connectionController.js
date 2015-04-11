@@ -15,5 +15,4 @@ theLinkedIn.controller("ConnectionCtrl", function($scope, $rootScope, DataServic
 			console.log(err.message);
 		});
 	}
-
 });

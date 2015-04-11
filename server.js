@@ -9,10 +9,10 @@ var express = require('express'),
     cookieSession = require('cookie-session'),
     messages = require('./util/messages'),
     mysql = require('./models/mysql');
-    
 
 var app = express();
 
+app.set('port', process.env.PORT || 3000);
 app.use(cookieParser());
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
@@ -46,5 +46,6 @@ app.get('*', function(req, res){
 //Connection pool initialization
 mysql.createConnPool();
 
-app.listen(3000);
-console.log('Listening on port 3000');
+app.listen(app.get('port'), function() {
+    console.log('%s: Node server started on %d ...', Date(Date.now()), app.get('port'));
+});
