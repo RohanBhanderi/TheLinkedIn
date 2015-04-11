@@ -10,6 +10,7 @@ var loginController = require('./controllers/login'),
 	jobController = require('./controllers/jobpost'),
 	followController = require('./controllers/follow'),
 	connectionController = require('./controllers/connection');
+	applicationController = require('./controllers/applyjob');
 
 module.exports = function (app, passport) {
 
@@ -59,8 +60,10 @@ module.exports = function (app, passport) {
     app.post('/postjob', ensureAuthenticated, jobController.postJob);
     app.delete('/deletejob', ensureAuthenticated, jobController.deleteJob);
     app.get('/connect/:userid/:secuserid', ensureAuthenticated, connectionController.checkUsersConn);
-	app.get('/getjob/:title', jobController.getJob);
-    app.get('/getjob', jobController.getAllJobs);
+	app.get('/getjob/:title', ensureAuthenticated, jobController.getJob);
+    app.get('/getjob', ensureAuthenticated, jobController.getAllJobs);
+    app.get('/getapp/:userid', ensureAuthenticated, applicationController.getApplication);
+    app.post('/postapp', ensureAuthenticated, applicationController.postApplication);
 
     //Auth Middleware
     function ensureAuthenticated(req, res, next) {
