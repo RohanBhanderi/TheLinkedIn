@@ -14,7 +14,7 @@ AWS.config.update({
 var db = new AWS.DynamoDB();
 var tableName = "application";
 
-putItem = function(applicationid,jobid, userid, appstatus,cb) {
+putAppItem = function(applicationid,jobid, userid, appstatus,cb) {
 	   var item = {
 	      "applicationid": { "S": applicationid}
 	   };
@@ -48,7 +48,7 @@ postApplication = function(req,res){
 	    var appstatus = req.body.appstatus;
 	   	    
 	    //call function to insert new application in dynamo db
-	    putItem(applicationid, jobid, userid,appstatus,function(err, data) {
+	    putAppItem(applicationid, jobid, userid,appstatus,function(err, data) {
 	      if (err) {
 	        console.log(err);
 	        res.status(500).json({status : 500,message : "Error while adding job details"});
@@ -61,7 +61,7 @@ postApplication = function(req,res){
 	
 	
 //function to get item from the dynamodb table
-getItem = function(userid, cb) {
+getAppItem = function(userid, cb) {
 		var index = "userid-jobid-index";
 		db.query({
 			"TableName": tableName,
@@ -87,7 +87,7 @@ getApplication = function(req,res){
 		//read request parameters
 		var userid = req.params.userid;
 
-	    getItem(userid,function(err, data) {
+	    getAppItem(userid,function(err, data) {
 	      if (err) {
 	        console.log(err);
 	        res.status(500).json({status : 500,message : "Error while gettin job details"});
@@ -97,8 +97,5 @@ getApplication = function(req,res){
 	    });
 };
 	
-
 exports.getApplication=getApplication;
-exports.getItem=getItem;
 exports.postApplication=postApplication;
-exports.putItem=putItem;	

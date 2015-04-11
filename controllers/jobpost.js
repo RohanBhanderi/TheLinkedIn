@@ -65,9 +65,10 @@ putItem = function(jobid, title, company, loc, details, created, modified,cb) {
 
 //function called on posting a new job 
 postJob = function(req,res){
+  console.log("postJob " + JSON.stringify(req.body))
 	//read request parameters
 	var jobid = moment.utc().format("YYYYMMDDHHmmssS");
-    var company = req.body.organisationid;
+    var company = "" + req.body.organisationid;
     var title = req.body.title;
     var loc = req.body.loc;
     var details = req.body.details;
@@ -172,13 +173,9 @@ getAllJobs = function(req,res){
 
 };
 
-
 exports.getAllJobs=getAllJobs;
 exports.getAllItems=getAllItems;
-exports.getJob=getJob;
-exports.getItem=getItem;
-exports.deleteJob=deleteJob
-exports.deleteItem=deleteItem;
+exports.deleteJob=deleteJob;
 exports.postJob=postJob;
-exports.putItem=putItem;
+exports.getJob=getJob;
 

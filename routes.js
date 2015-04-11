@@ -65,6 +65,9 @@ module.exports = function (app, passport) {
     app.get('/getapp/:userid', ensureAuthenticated, applicationController.getApplication);
     app.post('/postapp', ensureAuthenticated, applicationController.postApplication);
 
+    app.get('/getOrgDtls/:userid',ensureAuthenticated,organisationController.getOrgDtls);
+    app.put('/saveOrgDtls',ensureAuthenticated,organisationController.saveOrgDtls);
+
     //Auth Middleware
     function ensureAuthenticated(req, res, next) {
         if (req.isAuthenticated()) { 

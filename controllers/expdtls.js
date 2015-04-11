@@ -96,6 +96,7 @@ getExpDtls=function(req,res){
 					message : "Error while retrieving data"
 				});
 			} else {
+				console.log(rows);
 				res.status(200).json({
 					status : 200,
 					data : rows

@@ -11,7 +11,7 @@ exports.register = function(req, res) {
     var un = req.body.email;
     var fn = req.body.firstName;
     var ln = req.body.lastName;
-    var on = req.body.orgname;
+    var orgname = req.body.orgname;
     var usertype = req.body.usertype;
 
     req.checkBody('email', 'Please enter a valid email.').notEmpty().isEmail();
@@ -80,8 +80,8 @@ exports.register = function(req, res) {
            }
        });
      } else {
-        mysql.queryDb('insert into organisation set ?',{userid: userid,organisationname : on,
-            organisationtype : 'company',
+        mysql.queryDb('insert into organisation set ?',{userid: userid,organisationname : orgname,
+            organisationtype : 'PRO',
             email : un,
             creationdate:created,
             modifydate:created

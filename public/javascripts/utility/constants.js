@@ -32,7 +32,9 @@ var urlConstants = {
 	"GET_JOBS" : "/getjobs/", //
 	"POST_JOB" : "/postjob",
 	"UPDATE_JOB" : "", //
-	"DELETE_JOB" : ""  //
+	"DELETE_JOB" : "",  //
+	"GET_ORG_USER_DETAILS" : "/getOrgDtls/",
+	"UPDATE_ORG_PROFILE" : "/saveOrgDtls"
 };
 
 /**

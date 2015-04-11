@@ -110,20 +110,20 @@
 								<div class="col-xs-6" style="padding-left: 0; padding-right: 1;">
 									<div class="form-group">
 										<input type="text" class="form-control" name="firstName"
-											ng-model="firstName" placeholder="First Name" required>
+											ng-model="$parent.firstName" placeholder="First Name" required>
 									</div>
 								</div>
 								<div class="col-xs-6" style="padding-left: 0; padding-right: 0;">
 									<div class="form-group">
 										<input type="text" class="form-control" name="lastName"
-											ng-model="lastName" placeholder="Last Name" required>
+											ng-model="$parent.lastName" placeholder="Last Name" required>
 									</div>
 								</div>
 							</div>
 							<div ng-switch-when="org">
 								<div class="form-group">
 									<input type="text" class="form-control" name="orgname"
-										ng-model="orgname" placeholder="Organization Name" required>
+										ng-model="$parent.orgname" placeholder="Organization Name" required>
 								</div>
 							</div>
 						</div>
