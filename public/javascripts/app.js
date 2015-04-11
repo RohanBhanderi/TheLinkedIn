@@ -24,6 +24,11 @@ var theLinkedIn = angular.module("myLinkedIn", [ 'ui.router', 'ui.bootstrap' ])
 		url: "/home",
 		templateUrl: "templates/home.html",
 		controller : 'UserHomeController'
+	})
+	.state("organisation",{
+		url: "/organisation",
+		templateUrl: "templates/organisation.html",
+		controller : 'OrgHomeController'
 	});
 	/**
 	 * to remove hash in the URL

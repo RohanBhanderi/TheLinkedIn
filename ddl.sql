@@ -544,3 +544,5 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 ALTER TABLE userdetails add column dob varchar(25);
 ALTER TABLE userdetails modify column summary varchar(250);
+alter table userauthenticate add column usertype varchar(3) default 'usr';
+alter table organisation add column email varchar(40);

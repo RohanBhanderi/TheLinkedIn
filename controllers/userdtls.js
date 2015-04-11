@@ -35,7 +35,7 @@ updateUserDtls = function(req,res){
 };
 
 getAllUserDtls = function(req, res) {
-	mysql.queryDb("SELECT userid,CONCAT_WS(' ',firstname,lastname) as name,email from userdetails",
+	mysql.queryDb("SELECT userid,CONCAT_WS(' ',firstname,lastname) as name,email from userdetails UNION SELECT userid, organisationname as name,email from organisation",
 		function(err, response) {
 		if (err) {
 			console.log("Error while fetching list of all the users !!!");

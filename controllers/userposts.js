@@ -6,7 +6,6 @@ saveposts = function(req,res){
 	var profile_id = req.body.userid;
 
 	var created = dateutil.now();
-	conole.log('test');
 	var data = {
 			postheadline: headline,
 			postbody: body,

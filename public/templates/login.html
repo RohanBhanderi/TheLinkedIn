@@ -96,17 +96,38 @@
 				<div class="col-xs-12">
 					<form name="signUpForm" ng-submit="signUp()" novalidate>
 						<div class="col-xs-6" style="padding-left: 0; padding-right: 1;">
+			             	<div class="form-group">
+			                    <input type="radio" id="u" name="usertype" value="usr" ng-model="usertype"/>User
+			                </div>
+			              </div>
+						<div class="col-xs-6" style="padding-left: 0; padding-right: 1;">
 							<div class="form-group">
-								<input type="text" class="form-control" name="firstName"
-									ng-model="firstName" placeholder="First Name" required>
+			                    <input type="radio" id="o" name="usertype" value="org" ng-model="usertype"/>Organization
+			                </div>
+			             </div>
+			             <div ng-switch on="usertype">
+							<div ng-switch-when="usr">
+								<div class="col-xs-6" style="padding-left: 0; padding-right: 1;">
+									<div class="form-group">
+										<input type="text" class="form-control" name="firstName"
+											ng-model="firstName" placeholder="First Name" required>
+									</div>
+								</div>
+								<div class="col-xs-6" style="padding-left: 0; padding-right: 0;">
+									<div class="form-group">
+										<input type="text" class="form-control" name="lastName"
+											ng-model="lastName" placeholder="Last Name" required>
+									</div>
+								</div>
+							</div>
+							<div ng-switch-when="org">
+								<div class="form-group">
+									<input type="text" class="form-control" name="orgname"
+										ng-model="orgname" placeholder="Organization Name" required>
+								</div>
 							</div>
 						</div>
-						<div class="col-xs-6" style="padding-left: 0; padding-right: 0;">
-							<div class="form-group">
-								<input type="text" class="form-control" name="lastName"
-									ng-model="lastName" placeholder="Last Name" required>
-							</div>
-						</div>
+						
 						<div class="form-group">
 							<input type="email" class="form-control" name="email"
 								ng-model="email" placeholder="Email address" required>
