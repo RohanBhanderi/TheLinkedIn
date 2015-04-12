@@ -2,7 +2,7 @@
  * New node file
  */
 var redis = require('redis');
-var client = redis.createClient();
+var client = redis.createClient('replica282-001.halkdi.0001.usw2.cache.amazonaws.com','6379');
 var data=[{
 	"name":"sambu",
 	"lname":"gopan"
