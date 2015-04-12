@@ -24,14 +24,11 @@ exports.putItem = function(tableName,item,cb) {
  };
   
 //function to delete data from the dynamodb table
-exports.deleteItem = function(tableName,hashkey,cb) {
-    var item = {
-       "jobid": { "S": hashkey}
-    };
-    console.log(item);
+exports.deleteItem = function(tableName,itemhashkey,cb) {
+    console.log(itemhashkey);
      db.deleteItem({
         "TableName": tableName,
-        "Key": item
+        "Key": itemhashkey
      }, function(err, data) {
        if (err) {
          cb(err,data);
@@ -62,4 +59,38 @@ exports.getUserItems = function(tableName, hashkey, cb) {
  });
 };
 
- exports.dynamodb = db;
+exports.getUserItemsProj = function(tableName, hashkey, proj, cb){
+  db.query({
+              "TableName": tableName,
+              "KeyConditions" : {
+                "userid": {
+                  "ComparisonOperator": "EQ", 
+                  "AttributeValueList": [ { "S" : ""+hashkey } ]
+              }     
+              },
+            ProjectionExpression: proj,
+           }, function(err, data) {
+             if (err) {
+               cb(err,data);
+             } else {
+               cb(null,data);
+             }
+           });
+
+};
+
+//function to get all jobs from the dynamodb table
+exports.getAllItems = function(tableName,cb) {
+  db.scan({
+    "TableName": tableName,
+    "Limit": 100
+  }, function(err, data) {
+    if (err) {
+      cb(err,data);
+    } else {
+      cb(null,data);
+    }
+  });
+};
+
+ exports.getDBConn = function(){return db};

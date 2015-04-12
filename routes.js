@@ -20,7 +20,7 @@ module.exports = function (app, passport) {
 
     // Auth
     app.post('/register', loginController.register);
-    app.get('/login', loginController.loginPage);
+    app.get('/login', function(req,res){ res.render("index"); });
     app.post('/login', loginController.checkLogin);
     app.get('/loggedin',loginController.loggedin);
     app.post('/logout', loginController.logout);
@@ -67,6 +67,9 @@ module.exports = function (app, passport) {
 
     app.get('/getOrgDtls/:userid',ensureAuthenticated,organisationController.getOrgDtls);
     app.put('/saveOrgDtls',ensureAuthenticated,organisationController.saveOrgDtls);
+
+    //Elastick beanstalk healthcheck
+    app.get('/health',function(req,res){ res.send(200); });
 
     //Auth Middleware
     function ensureAuthenticated(req, res, next) {

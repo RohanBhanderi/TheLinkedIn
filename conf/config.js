@@ -2,12 +2,21 @@
  * Database Configurations
  */
 exports.db = {
-		"host" : "localhost",
+		// Local
+		// "host" : "localhost",
+		// "port" : 3306,
+		// "user" : "root",
+		// "password" : "",
+		// "database" : "cmpe_282",
+		
+		//AWS
+		"host" : "mydb.cwvz0jc9ipyp.us-west-2.rds.amazonaws.com",
 		"port" : 3306,
-		"user" : "root",
-		"password" : "rohan",
+		"user" : "username",
+		"password" : "password1",
 		"database" : "cmpe_282",
 		"connectionLimit" : 100
+
 };
 
 /**
@@ -21,7 +30,7 @@ exports.dbPool = {
 * AWS configurations
 */
 exports.awsConfig = {
-	accessKeyId: '',
-	secretAccessKey: '',
+	accessKeyId: 'AKIAIEO4Y6ZRTE7WAORQ',
+	secretAccessKey: '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',
 	region: 'us-west-2'
 };
