@@ -56,7 +56,10 @@ exports.register = function(req, res) {
               "userid": { "S": userid},
               "firstname" : {"S" : fn},
               "lastname" : {"S" :ln},
-              "email":{"S":un}
+              "email":{"S":un},
+              "headline" : {"S" :""},
+              "dob" : {"S" :""},
+              "summary" : {"S" :""}
             };
             dynamo.putItem("userdetails",item,function(err,result){
                 if(err) {
