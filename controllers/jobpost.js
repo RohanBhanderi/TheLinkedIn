@@ -193,6 +193,65 @@ getAllJobs = function(req,res){
 
 };
 
+//function to get job from the dynamodb table
+getExpiredItem = function(expiry, cb) {
+	var index = "expiry-index";
+	db.query({
+		"TableName": tableName,
+		"IndexName" : index,
+		"KeyConditions" : {
+			"expiry": {
+				"ComparisonOperator": "EQ", 
+				"AttributeValueList": [ { "S" : expiry } ]
+ 		}			
+    },
+ 	ProjectionExpression: "jobid",
+ }, function(err, data) {
+   if (err) {
+     cb(err,data);
+   } else {
+     cb(null,data);
+   }
+ });
+};
+
+//function called on posting a new job 
+batchDelete = function(cb){
+	var expiry = moment.utc().format("YYYYMMDDHH");
+	getExpiredItem(expiry,function(err, data) {
+		if (err) {
+	       console.log(err);
+	       cb(err,data);
+	    } else {
+	      	for(var i=0; i<data.ScannedCount; i++){
+	      		var jobid = data.Items[i].jobid.S;
+	      	  	deleteItem(jobid, function(err, reply) {
+	      	  	if (err) {
+	      	  		//cb(err,reply);
+	      	  		} else {
+	      	  			//cb(null,reply);
+	      	  		}
+	      	  	});
+	      	  }
+	      	  cb(null,data);
+	        }
+	      });
+};
+
+//function called to delete expired jobs 
+deleteExpiredJob = function(req,res){	
+    //call function to delete a job in dynamo db
+	batchDelete(function(err, data) {
+      if (err) {
+        console.log(err);
+        res.status(500).json({status : 500,message : "Error while deleting job"});
+      } else {
+        res.status(200).json({status : 200,message : "Successfull", response:data});
+      }
+    });
+
+};
+exports.deleteExpiredJob=deleteExpiredJob;
 exports.getAllJobs=getAllJobs;
 exports.deleteJob=deleteJob;
 exports.postJob=postJob;
