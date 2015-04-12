@@ -1,101 +1,103 @@
-/**
- * New node file
- */
 var dateutil = require("../util/dateutil");
 var AWS = require("aws-sdk");
 var config = require("./../conf/config.js");
 var moment = require("moment");
 
 AWS.config.update({
-    accessKeyId: config.awsConfig.accessKeyId,
-    secretAccessKey: config.awsConfig.secretAccessKey,
-    region: config.awsConfig.region
+	region : config.awsConfig.region,
+	accessKeyId : config.awsConfig.accessKeyId,
+	secretAccessKey : config.awsConfig.secretAccessKey
 });
+
 var db = new AWS.DynamoDB();
-var tableName = "application";
+var tableName = "job";
 
-putAppItem = function(applicationid,jobid, userid, appstatus,cb) {
-	   var item = {
-	      "applicationid": { "S": applicationid}
-	   };
-	   if (jobid) item.jobid = { "S": jobid };
-	   if (userid) item.userid = { "S": userid };
-	   if (appstatus) item.appstatus = { "S": appstatus }; 
-	 
-	   //var itemJson = JSON.stringify(item);
-	   console.log(item);
-	    db.putItem({
-	       "TableName": tableName,
-	       "Item": item
-	    }, function(err, data) {
-	      if (err) {
-	        cb(err,data);
-	      } else {
-	        cb(null,data);
-	      }
-	    });
+getApp = function(id, cb) {
+	console.log("In Dynamo");
+	db.query({
+		"TableName": tableName,
+		"KeyConditions" : {
+			"jobid": {
+				"ComparisonOperator": "EQ", 
+				"AttributeValueList": [ { "S" : id } ]
+ 		}			
+    },
+ 	ProjectionExpression: "title, company, loc, details, created, modified"
+ }, function(err, data) {
+   if (err) {
+     cb(err,data);
+   } else {
+     cb(null,data);
+   }
+ });
 };
 
-	 
-	 
-//function called on posting a new application
-postApplication = function(req,res){
-	  console.log(JSON.stringify(req.body));
-	  //read request parameters
-	    var applicationid = moment.utc().format("YYYYMMDDHHmmssS");
-	    var jobid = req.body.jobid;
-	    var userid = req.body.userid;
-	    var appstatus = req.body.appstatus;
-	   	    
-	    //call function to insert new application in dynamo db
-	    putAppItem(applicationid, jobid, userid,appstatus,function(err, data) {
-	      if (err) {
-	        console.log(err);
-	        res.status(500).json({status : 500,message : "Error while adding job details"});
-	      } else {
-	        res.status(200).json({status : 200,message : "Successfull", response:data});
-	      }
-	    });
-	  
+
+getAllApplications = function(req, res) {
+	var userid = req.params.userid;
+	console.log(userid);
+
+	var sql1 = "select jobid from jobapplications where userid ='" + userid + "'";
+	mysql.queryDb(sql1, function(err, rows) {
+		if (!err) {
+			if (rows == null || rows == '') {
+				console.log('user not found');
+				res.writeHead(200, {
+					"Content-type" : "application/json"});
+				res.end('');
+			} else {
+				
+				for(var i=0;i<rows.length;i++)
+					{					
+			        console.log(rows[i].jobid);
+					var id= rows[i].jobid;
+							console.log("In for");			
+						//function for getting job details for particular jobid	
+						console.log(id);
+				getApp (id,function(err, data) {
+						      if (err) {
+						        console.log(err);
+						     
+						      } else {
+						    // res.status(200).json({status : 200,message : "Successfull", response:data.Items});		
+						      console.log(data.Items);
+						      }
+						    });
+					}
+				
+				//res.writeHead(200, {"Content-type" : "application/json"});
+				//res.end(JSON.stringify(rows));
+				//res.end(JSON.stringify(rows.length));
+			}
+		} else {
+			console.error(e.stack);
+			res.send(500, "Server crashed.");
+		}
+	});
+};
+
+postApplication = function(req, res) {
+	var userid = req.body.userid;
+	var jobid = req.body.jobid;
+	console.log(userid);
+	
+	// console.log(req.body.userid+" "+req.body.jobid+" "+req.body.status);
+	
+	var params = {
+		userid : userid,
+		jobid : jobid,
+		status : "PEND"
 	};
-	
-	
-//function to get item from the dynamodb table
-getAppItem = function(userid, cb) {
-		var index = "userid-jobid-index";
-		db.query({
-			"TableName": tableName,
-			"IndexName" : index,
-			"KeyConditions" : {
-				"userid": {
-					"ComparisonOperator": "EQ", 
-					"AttributeValueList": [ { "S" : userid } ]
-	 		}			
-	    },
-	 	ProjectionExpression: "userid, jobid, appstatus",
-	 }, function(err, data) {
-	   if (err) {
-	     cb(err,data);
-	   } else {
-	     cb(null,data);
-	   }
-	 });
+
+	mysql.queryDb("insert into jobapplications set ? ", params,function(err, rows) {
+	  if (err) {
+        console.log(err);
+        res.status(500).json({status : 500,message : "Error while adding job details"});
+      } else {
+        res.status(200).json({status : 200,message : "Successfull", data:rows});
+      }
+	});
 };
 
-//function called to get all applications from dynamodb table
-getApplication = function(req,res){
-		//read request parameters
-		var userid = req.params.userid;
-
-	    getAppItem(userid,function(err, data) {
-	      if (err) {
-	        console.log(err);
-	        res.status(500).json({status : 500,message : "Error while gettin job details"});
-	      } else {
-	        res.status(200).json({status : 200,message : "Successfull", response:data});
-	      }
-	    });
-};
-	
-exports.getApplication=getApplication;
-exports.postApplication=postApplication;
+exports.getAllApplications = getAllApplications;
+exports.postApplication = postApplication;
