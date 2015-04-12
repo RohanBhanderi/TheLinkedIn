@@ -31,6 +31,11 @@ theLinkedIn.controller("JobsCtrl", function($scope, $rootScope, $modal,
 		});
 	};
 
+	$scope.applyJobs = function(data){
+		var jobid = data.jobid.S;
+		
+	};
+
 	/**
 	 * Function to get job details
 	 */

@@ -1,4 +1,5 @@
 var dateutil = require('../util/dateutil');
+var dynamo = require("./../models/dynamo.js");
 
 updateUserDtls = function(req,res){
 
@@ -8,66 +9,166 @@ updateUserDtls = function(req,res){
 			message : "Bad Request"
 		});
 	}else{
-		var userid = req.body.userid;
+		var userid = "" + req.body.userid;
 
-		var queryParams = {
-				firstName : req.body.firstName,
-				lastName : req.body.lastName,
-				headline : req.body.headline,
-				dob : req.body.dob,
-				summary : req.body.summary
+		// var queryParams = {
+		// 		firstName : req.body.firstName,
+		// 		lastName : req.body.lastName,
+		// 		headline : req.body.headline,
+		// 		dob : req.body.dob,
+		// 		summary : req.body.summary
+		// };
+
+		// mysql.queryDb("UPDATE ?? SET ? WHERE ?? = ?",['userdetails',queryParams,'userid',userid],function(err,response){
+		// 	if (err) {
+		// 		console.log("Error while update userdetails");
+		// 	}
+		// });
+
+	
+		var item = {
+			"userid": { "S": userid},
+			"firstname" : {"S" : req.body.firstName},
+			"lastname" : {"S" :req.body.lastName},
+			"email":{"S":req.body.email},
+			"headline" : {"S" :req.body.headline},
+			"dob" : {"S" :req.body.dob},
+			"summary" : {"S" :req.body.summary}
 		};
 
-		mysql.queryDb("UPDATE ?? SET ? WHERE ?? = ?",['userdetails',queryParams,'userid',userid],function(err,response){
-			if (err) {
-				res.status(500).json({
-					status : 500,
-					message : "Error while updating user profile"
-				});
-			} else {
-				res.status(200).json({
-					status : 200,
-					message : "Successfull"
-				});
+		dynamo.putItem("userdetails",item,function(err,response){
+			if(err){
+				console.log(err);
+				res.status(500).json({status:500,message : "Error while retrieving data"});
+			}else{
+				console.log(JSON.stringify(response));
+				res.status(200).json({status:200,data : response});
 			}
 		});
 	}
 };
 
 getAllUserDtls = function(req, res) {
-	mysql.queryDb("SELECT userid,CONCAT_WS(' ',firstname,lastname) as name,email from userdetails UNION SELECT userid, organisationname as name,email from organisation",
-		function(err, response) {
-		if (err) {
-			console.log("Error while fetching list of all the users !!!");
-			res.status(500).json({
-				status : 500,
-				message : "Please try again later"
+	// mysql.queryDb("SELECT userid,CONCAT_WS(' ',firstname,lastname) as name,email from userdetails UNION SELECT userid, organisationname as name,email from organisation",
+	// 	function(err, response) {
+	// 	if (err) {
+	// 		console.log("Error while fetching list of all the users !!!");
+	// 		res.status(500).json({
+	// 			status : 500,
+	// 			message : "Please try again later"
+	// 		});
+	// 	} else {
+	// 		console.log("api/user successfull");
+	// 		res.status(200).json({
+	// 			status : 200,
+	// 			data : response
+	// 		});
+	// 	}
+	// });
+	//-----------------------------
+	var data = [];
+	dynamo.getDBConn().scan({
+	    "TableName": "userdetails",
+	    "Limit": 100,
+	    ProjectionExpression: "userid, firstname, lastname, email"
+	}, function(err,response){
+        if(err) {
+            console.log(err);
+            res.status(500).json({status:500,message : "Please try again later"});
+        } else {
+        	response.Items.forEach(function(item){
+				data.push({
+					userid : item.userid.S,
+					email : item.email.S,
+					name: item.firstname.S + ' ' + item.lastname.S
+				});
 			});
-		} else {
-			console.log("api/user successfull");
-			res.status(200).json({
-				status : 200,
-				data : response
-			});
-		}
-	});
+        	dynamo.getDBConn().scan({
+			    "TableName": "organisation",
+			    "Limit": 100,
+			    ProjectionExpression: "userid, organisationname, email"
+			},function(err,responseOrg){
+		        if(err) {
+		            console.log(err);
+		            res.status(500).json({status:500,message : "Please try again later"});
+		        } else {
+		        	responseOrg.Items.forEach(function(item){
+						data.push({
+							userid : item.userid.S,
+							email : item.email.S,
+							name: item.organisationname.S
+						});
+					});
+					//console.log(JSON.stringify(data));
+		            res.status(200).json({status:200, data:data});
+		        }
+			 });
+        }
+    });
+
+//------------------------
+	// dynamo.getUserItemsProj("userdetails",user.userid,"firstname, lastname, email",function(err,response){
+ //        if(err) {
+ //            console.log(err);
+ //            res.status(500).json({status:500,message : "Please try again later"});
+ //        } else {
+ //        	response.Items.forEach(function(item){
+	// 			data.push({
+	// 				userid : user.userid,
+	// 				email : item.email,
+	// 				name: item.firstname + ' ' + item.lastname
+	// 			});
+	// 		});
+
+	// 		dynamo.getUserItemsProj("organisation",user.userid,"organisationname, email",function(err,responseOrg){
+	// 	        if(err) {
+	// 	            console.log(err);
+	// 	            res.status(500).json({status:500,message : "Please try again later"});
+	// 	        } else {
+	// 	        	responseOrg.Items.forEach(function(item){
+	// 					data.push({
+	// 						userid : user.userid,
+	// 						email : item.email,
+	// 						name: item.organisationname
+	// 					});
+	// 				});
+	// 	            res.status(200).json({status:200, data:data});
+	// 	        }
+	// 	    });
+ //        }
+ //    });
+
+	//-----------------------------
 };
 
 getUserDtls=function(req,res){
-	//console.log("userid"+req.params.userid);
-	mysql.queryDb('select * from userdetails where userid=?',[req.params.userid],function(err,rows){
-		if (err) {
-			console.log("Error while fetching list of all the users !!!");
-			res.status(500).json({
-				status : 500,
-				message : "Please try again later"
-			});
-		} else {
-			//console.log("api/user successfull");
-			res.status(200).json({
-				status : 200,
-				data : rows
-			});
+	console.log("getUserDtls " + req.params.userid);
+	dynamo.getUserItems("userdetails",req.params.userid,function(err,response){
+		if(err){
+			console.log(err);
+			res.status(500).json({status:500,message : "Error while retrieving data"});
+		}else{
+			console.log(response);
+			var result = {
+				userid: response.Items[0].userid.S,
+				firstname : response.Items[0].firstname.S,
+				lastname : response.Items[0].lastname.S,
+				email:response.Items[0].email.S,
+				headline : response.Items[0].headline.S,
+				dob : response.Items[0].dob.S,
+				summary : response.Items[0].summary.S
+			};
+			// response.Items.forEach(function(item){
+			// 	result.push({
+			// 		userid : item.userid.S,
+			// 		motto : item.motto.S,
+			// 		url : item.url.S,
+			// 		overview : item.overview.S
+			// 	});
+			// });
+			// JSON.stringify(result)
+			//console.log("Result: " + JSON.stringify(result));
+			res.status(200).json({status:200,data : result });
 		}
 	});
 	

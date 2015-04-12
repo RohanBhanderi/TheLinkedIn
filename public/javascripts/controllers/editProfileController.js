@@ -27,7 +27,6 @@ theLinkedIn.controller("EditProfileCtrl", function($scope, $modalInstance,isEdit
 		if($scope.firstName === "" || $scope.lastName=== "" || $scope.headline=== "" || $scope.dob=== "" || $scope.headline=== "--" || $scope.dob=== "--"){
 			$scope.formError = "Form Invalid !!!";
 		}else{
-			
 			var newDate = new Date($scope.dob);
 			var formattedDOB = newDate.getDate()+"-"+dataConstants.MONTH_NAMES[newDate.getMonth()]+"-"+newDate.getFullYear();
 			
@@ -36,6 +35,7 @@ theLinkedIn.controller("EditProfileCtrl", function($scope, $modalInstance,isEdit
 			
 			var params = {
 					userid : $rootScope.userid,
+					email : $rootScope.email,
 					firstName : $scope.firstName,
 					lastName : $scope.lastName,
 					headline : $scope.headline,

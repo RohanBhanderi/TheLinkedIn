@@ -22,7 +22,7 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 		
 		DataService.postData(urlConstants.CONNECT_USERS,params).success(function(response){
 			$scope.isConnected = true;
-			$scope.connectionStatus = "Connected";
+			$scope.connectionStatus = "Following";
 		}).error(function(err){
 			$scope.connectionStatus = err.message;
 		});
@@ -93,14 +93,14 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 				$scope.isConnected = false;
 			}else{
 				$scope.isConnected = true;
-				$scope.connectionStatus = "Connected";
+				$scope.connectionStatus = "Following";
 				// switch(response.data[0].status){
 				// 	case "pending": 
 				// 					$scope.connectionStatus = "Request Pending";
 				// 					$scope.isConnected = true;
 				// 					break;
 				// 	case "active": 
-				// 					$scope.connectionStatus = "Connected";
+				// 					$scope.connectionStatus = "Following";
 				// 					$scope.isConnected = true;
 				// 					break;
 				// 	case "default":

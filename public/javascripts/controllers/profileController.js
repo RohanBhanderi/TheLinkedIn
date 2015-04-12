@@ -9,6 +9,8 @@ theLinkedIn.controller("ProfileController", function($scope, $rootScope, $modal,
 		getEducationList();
 		getSkillsList();
 		
+		
+
 		/**
 		 * Getting List of Companies for adding experience 
 		 */
@@ -152,7 +154,7 @@ theLinkedIn.controller("ProfileController", function($scope, $rootScope, $modal,
 	function getUserDetails(){
 		var uri = urlConstants.GET_USER_DETAILS+$rootScope.userid;
 		DataService.getData(uri,[]).success(function(response){
-			$scope.myProperties = response.data[0];
+			$scope.myProperties = response.data;
 		}).error(function(err){
 			console.log(err.message);
 		});

@@ -5,10 +5,10 @@ theLinkedIn.controller("EditEducationCtrl", function($scope, $modalInstance,
 	/** ******************** */
 	if (isEdit) {
 		$scope.selectedInstitution = isEdit.school;
-		$scope.selectedFromMonth = $filter('date')(isEdit.startdate, "MMMM"); //isEdit.startdate.split('-')[0];
-		$scope.selectedFromYear = $filter('date')(isEdit.startdate, "yyyy");   //isEdit.startdate.split('-')[1];
-		$scope.selectedToMonth = $filter('date')(isEdit.enddate, "MMMM");      //isEdit.enddate.split('-')[0];
-		$scope.selectedToYear = $filter('date')(isEdit.enddate, "yyyy");	//isEdit.enddate.split('-')[1];
+		$scope.selectedFromMonth = isEdit.startdate.split('-')[0]; // $filter('date')(isEdit.startdate, "MMMM"); //isEdit.startdate.split('-')[0];
+		$scope.selectedFromYear = isEdit.startdate.split('-')[1];  // $filter('date')(isEdit.startdate, "yyyy");   //isEdit.startdate.split('-')[1];
+		$scope.selectedToMonth = isEdit.enddate.split('-')[0]; // $filter('date')(isEdit.enddate, "MMMM");      //isEdit.enddate.split('-')[0];
+		$scope.selectedToYear = isEdit.enddate.split('-')[1];	//isEdit.enddate.split('-')[1];
 		$scope.degree = isEdit.degree;
 		$scope.deleteOption = true;
 	} else {
@@ -57,6 +57,7 @@ theLinkedIn.controller("EditEducationCtrl", function($scope, $modalInstance,
 					},
 					old : {
 						userid : $rootScope.userid,
+						rangekey : isEdit.rangekey,
 						startdate : isEdit.startdate,
 						enddate : isEdit.enddate,
 						school : isEdit.school,
@@ -97,6 +98,7 @@ theLinkedIn.controller("EditEducationCtrl", function($scope, $modalInstance,
 		var uri = urlConstants.DELETE_EDUCATION;
 		var params = {
 					userid : $rootScope.userid,
+					rangekey : isEdit.rangekey,
 					startdate : isEdit.startdate,
 					enddate : isEdit.enddate,
 					school : isEdit.school,

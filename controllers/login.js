@@ -2,7 +2,8 @@ var crypto = require('crypto'),
 passport = require('passport'),
 data = require('../models/mysql'),
 moment = require('moment'),
-dateutil = require('../util/dateutil');
+dateutil = require('../util/dateutil'),
+dynamo = require("./../models/dynamo.js");
 
 exports.register = function(req, res) {
     //var vpw = req.body.vpw;
@@ -48,45 +49,50 @@ exports.register = function(req, res) {
             message : "Please try again later"
         });
      } else {
-        var userid = result.insertId;
-    if(usertype == 'usr') {
-         mysql.queryDb('insert into userdetails set ?',{userid: userid,firstname : fn,
-            lastname : ln,
-            email : un,
-            creationdate:created,
-            modifydate:created
-        },
-        function(err,result){
-            if(err) {
-               res.status(500).json({
-                status : 500,
-                message : "Please try again later"
-            });
-           } else {
-               req.session.userid = userid;
-               passport.authenticate('local')(req, res, function () {
-                lastLogin = new Date();
-                req.session.email = un;
+      var userid = "" + result.insertId;
+      if(usertype == 'usr') {
 
-                res.status(200).json({
-                    status : 200,
-                    userid : userid,
-                    email : un,
-                    name : req.body.firstName + " " + req.body.lastName,
-                    usertype:usertype,
-                    lastLogin : lastLogin.toDateString() + " " + lastLogin.toLocaleTimeString()
+            var item = {
+              "userid": { "S": userid},
+              "firstname" : {"S" : fn},
+              "lastname" : {"S" :ln},
+              "email":{"S":un}
+            };
+            dynamo.putItem("userdetails",item,function(err,result){
+                if(err) {
+                   res.status(500).json({
+                    status : 500,
+                    message : "Please try again later"
                 });
-            });
-           }
-       });
+               } else {
+                   req.session.userid = userid;
+                   passport.authenticate('local')(req, res, function () {
+                    lastLogin = new Date();
+                    req.session.email = un;
+
+                    res.status(200).json({
+                        status : 200,
+                        userid : userid,
+                        email : un,
+                        name : req.body.firstName + " " + req.body.lastName,
+                        usertype:usertype,
+                        lastLogin : lastLogin.toDateString() + " " + lastLogin.toLocaleTimeString()
+                    });
+                });
+               }
+           });
+
      } else {
-        mysql.queryDb('insert into organisation set ?',{userid: userid,organisationname : orgname,
-            organisationtype : 'PRO',
-            email : un,
-            creationdate:created,
-            modifydate:created
-        },
-        function(err,result){
+
+        var item = {
+              "userid" : {"S":userid},
+              "organisationname" : {"S":orgname},
+              "organisationtype": { "S": "PRO"},
+              "creationdate" : {"S" : dateutil.nowFullString()},
+              "modifydate" : {"S" : dateutil.nowFullString()},
+              "email":{"S":un}
+            };
+          dynamo.putItem("organisation",item,function(err,result){
             if(err) {
                res.status(500).json({
                 status : 500,
@@ -107,15 +113,12 @@ exports.register = function(req, res) {
                     lastLogin : lastLogin.toDateString() + " " + lastLogin.toLocaleTimeString()
                 });
             });
-           }
+           }//inner else
        });
-     }
- }
-});
-};
 
-exports.loginPage = function(req, res) {
-    res.render('index', {username: req.flash('username')});
+    }//outer else
+  }
+});//Main Mongo DB
 };
 
 exports.checkLogin = function(req, res, next) {
@@ -146,27 +149,29 @@ exports.checkLogin = function(req, res, next) {
              }
          });
           if(user.usertype == 'usr')  {
-            mysql.queryDb("select firstname, lastname from userdetails where ?",[{userid:user.userid}],function(err,result){
+
+            dynamo.getUserItemsProj("userdetails",user.userid,"firstname, lastname",function(err,result){
                 if(err) {
                     console.log(err);
                     res.status(500).json({status:500,message : "Please try again later"});
                 } else {
-//                    console.log(JSON.stringify(result));
-                    res.status(200).json({status : 200, userid:user.userid, email : user.username, name : result[0].firstname  + ' ' + result[0].lastname, usertype:user.usertype,lastLogin : lastlogin});
+                    console.log(JSON.stringify(result));
+                    res.status(200).json({status : 200, userid:user.userid, email : user.username, name : result.Items[0].firstname.S + ' ' + result.Items[0].lastname.S, usertype:user.usertype,lastLogin : lastlogin});
                 }
-                }); 
+            }); 
           } else {
-            mysql.queryDb("select organisationname from organisation where ?",[{userid:user.userid}],function(err,result){
+
+            dynamo.getUserItemsProj("organisation",user.userid,"organisationname",function(err,result){
                 if(err) {
                     console.log(err);
                     res.status(500).json({status:500,message : "Please try again later"});
                 } else {
 //                    console.log(JSON.stringify(result));
-                    res.status(200).json({status : 200, userid:user.userid, email : user.username, name : result[0].organisationname, usertype:user.usertype,lastLogin : lastlogin});
+                    res.status(200).json({status : 200, userid:user.userid, email : user.username, name : result.Items[0].organisationname.S, usertype:user.usertype,lastLogin : lastlogin});
                 }
-                });
-          }           
-        });
+            });        
+        }
+      });
     })(req, res, next);
 };
 

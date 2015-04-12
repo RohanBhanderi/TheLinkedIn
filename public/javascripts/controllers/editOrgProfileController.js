@@ -18,6 +18,7 @@ theLinkedIn.controller("EditOrgProfileCtrl", function($scope, $modalInstance,isE
 						
 			var params = {
 					userid : $rootScope.userid,
+					email : $rootScope.email,
 					motto : $scope.motto,
 					url : $scope.url,
 					overview : $scope.overview

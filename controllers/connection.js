@@ -3,11 +3,12 @@ var dateutil = require('../util/dateutil');
 addConn = function(req,res){
 	var userid = req.body.userid;
 	var organisationid = req.body.secuserid;
-	//var category = req.body.category;
+	var category = req.body.category;
 	var creationdate = dateutil.now();
 	var data = {
 			userid : userid,
 			organisationid : organisationid,
+			category : category,
 			creationdate:creationdate,
 			modifydate:creationdate
 	};
@@ -81,7 +82,7 @@ getConn=function(req,res){
 					}
 				});
 
-				mysql.queryDb("SELECT userid,CONCAT_WS(' ',firstname,lastname) as name,email from userdetails WHERE userid IN (?)",[array],function(err,rows){
+				mysql.queryDb("SELECT userid,CONCAT_WS(' ',firstname,lastname) as name,email from userdetails usr WHERE usr.userid IN (?) UNION SELECT userid, organisationname as name,email from organisation as org where org.userid in (?)",[array,array],function(err,rows){
 					if(err){
 						console.log("Error while retrieving user connections !!!" + err);
 						res.status(500).json({status : 500,message : "Error while retrieving user connections"});

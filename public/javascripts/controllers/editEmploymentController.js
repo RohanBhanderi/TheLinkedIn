@@ -5,10 +5,10 @@ theLinkedIn.controller("EditEmploymentCtrl", function($scope, $modalInstance,
 	/***********************/
 	if (isEdit) {
 		$scope.selectedCompany = isEdit.companyname;
-		$scope.selectedFromMonth = $filter('date')(isEdit.startdate, "MMMM"); //isEdit.startdate.split('-')[0];
-		$scope.selectedFromYear = $filter('date')(isEdit.startdate, "yyyy");   //isEdit.startdate.split('-')[1];
-		$scope.selectedToMonth = $filter('date')(isEdit.enddate, "MMMM");      //isEdit.enddate.split('-')[0];
-		$scope.selectedToYear = $filter('date')(isEdit.enddate, "yyyy");
+		$scope.selectedFromMonth = isEdit.startdate.split('-')[0]; // $filter('date')(isEdit.startdate, "MMMM"); //isEdit.startdate.split('-')[0];
+		$scope.selectedFromYear = isEdit.startdate.split('-')[1];  // $filter('date')(isEdit.startdate, "yyyy");   //isEdit.startdate.split('-')[1];
+		$scope.selectedToMonth = isEdit.enddate.split('-')[0]; // $filter('date')(isEdit.enddate, "MMMM");      //isEdit.enddate.split('-')[0];
+		$scope.selectedToYear = isEdit.enddate.split('-')[1]; //$filter('date')(isEdit.enddate, "yyyy");
 		$scope.designation = isEdit.title;
 		$scope.deleteOption = true;
 	} else {
@@ -56,6 +56,7 @@ theLinkedIn.controller("EditEmploymentCtrl", function($scope, $modalInstance,
 					},
 					old : {
 						userid : $rootScope.userid,
+						rangekey : isEdit.rangekey,
 						startdate : isEdit.from,
 						enddate : isEdit.to,
 						companyname : isEdit.companyname,
@@ -80,11 +81,11 @@ theLinkedIn.controller("EditEmploymentCtrl", function($scope, $modalInstance,
 					title : $scope.designation
 				};
 				DataService.postData(urlConstants.ADD_EXPERIENCE, params)
-						.success(function(response) {
-							$modalInstance.close(true);
-						}).error(function(err) {
-							$modalInstance.close(false);
-						});
+					.success(function(response) {
+						$modalInstance.close(true);
+					}).error(function(err) {
+						$modalInstance.close(false);
+					});
 			}
 		} else {
 			$scope.formError = "Form Invalid !!!";
@@ -95,6 +96,7 @@ theLinkedIn.controller("EditEmploymentCtrl", function($scope, $modalInstance,
 		var uri = urlConstants.DELETE_EMPLOYMENT;
 		var params = {
 					userid : $rootScope.userid,
+					rangekey : isEdit.rangekey,
 					startdate : isEdit.startdate,
 					enddate : isEdit.enddate,
 					companyname : isEdit.companyname,
