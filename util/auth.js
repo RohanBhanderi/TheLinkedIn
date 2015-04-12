@@ -6,7 +6,12 @@ module.exports = function(passport) {
 
     passport.serializeUser(function(user, done) {
     	//console.log('serializeUser' + user.userid + ":" + user.username);
-        done(null, user.userid);
+        try{
+            done(null, user.userid);
+        } catch(e){
+            console.log(e);
+            console.log('serializeUser:: ' + user.userid + ":" + user.username);
+        }
     });
 
     passport.deserializeUser(function(user_id, done) {
