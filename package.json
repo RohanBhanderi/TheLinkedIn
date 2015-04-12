@@ -25,6 +25,7 @@
     "passport-local": "latest",
     "swig": "latest",
     "underscore": "latest",
-    "view-helpers": "latest"
+    "view-helpers": "latest",
+    "redis": "latest"
   }
 }
