@@ -82,13 +82,14 @@ getSkills=function(req,res){
 			// };
 			//console.log("Response: " + JSON.stringify(response));
 			var result = [];
-			response.Items[0].skillset.SS.forEach(function(skill){
-				result.push({
-					userid : req.params.userid,
-					skillname : skill
+			if(response.Items.length > 0){
+				response.Items[0].skillset.SS.forEach(function(skill){
+					result.push({
+						userid : req.params.userid,
+						skillname : skill
+					});
 				});
-			});
-			
+			}
 			res.status(200).json({status:200,data : result });
 		}
 	});

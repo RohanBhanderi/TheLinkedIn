@@ -546,3 +546,11 @@ ALTER TABLE userdetails add column dob varchar(25);
 ALTER TABLE userdetails modify column summary varchar(250);
 alter table userauthenticate add column usertype varchar(3) default 'usr';
 alter table organisation add column email varchar(40);
+
+CREATE TABLE `jobapplications` (
+  `applicationid` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` varchar(45) NOT NULL,
+  `jobid` varchar(45) NOT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`applicationid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1

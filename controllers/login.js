@@ -57,12 +57,13 @@ exports.register = function(req, res) {
               "firstname" : {"S" : fn},
               "lastname" : {"S" :ln},
               "email":{"S":un},
-              "headline" : {"S" :""},
-              "dob" : {"S" :""},
-              "summary" : {"S" :""}
+              "headline" : {"S" :"Not Added"},
+              "dob" : {"S" :"Not Added"},
+              "summary" : {"S" :"Not Added"}
             };
             dynamo.putItem("userdetails",item,function(err,result){
                 if(err) {
+                    console.log(err);
                    res.status(500).json({
                     status : 500,
                     message : "Please try again later"
@@ -97,6 +98,7 @@ exports.register = function(req, res) {
             };
           dynamo.putItem("organisation",item,function(err,result){
             if(err) {
+              console.log(err);
                res.status(500).json({
                 status : 500,
                 message : "Please try again later"
@@ -158,7 +160,7 @@ exports.checkLogin = function(req, res, next) {
                     console.log(err);
                     res.status(500).json({status:500,message : "Please try again later"});
                 } else {
-                    console.log(JSON.stringify(result));
+                    //console.log(JSON.stringify(result));
                     res.status(200).json({status : 200, userid:user.userid, email : user.username, name : result.Items[0].firstname.S + ' ' + result.Items[0].lastname.S, usertype:user.usertype,lastLogin : lastlogin});
                 }
             }); 
