@@ -2,10 +2,10 @@
  * Database Configurations
  */
 exports.db = {
-		"host" : "localhost",
+		"host" : "mydb.cwvz0jc9ipyp.us-west-2.rds.amazonaws.com",
 		"port" : 3306,
-		"user" : "root",
-		"password" : "rohan",
+		"user" : "username",
+		"password" : "password1",
 		"database" : "cmpe_282",
 		"connectionLimit" : 100
 };
