@@ -19,8 +19,8 @@ theLinkedIn.controller("JobsCtrl", function($scope, $rootScope, $modal,
 	$scope.getAllAppliedJobs = function(){
 		var uri = urlConstants.GET_ALL_APP+$rootScope.userid;
 		DataService.getData(uri,[]).success(function(response){
-			console.log("Jobs " + response.response);
-			$scope.jobData = response.response;
+			console.log("JobsApplied " + response);
+			$scope.jobData = response;
 		}).error(function(err){
 			console.log(err.message);
 		});

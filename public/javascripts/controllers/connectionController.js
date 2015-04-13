@@ -7,6 +7,7 @@ theLinkedIn.controller("ConnectionCtrl", function($scope, $rootScope, DataServic
 		
 		DataService.getData(uri,[]).success(function(response){
 			if(response.data){
+				console.log("All conns: " + response.data);
 				$scope.connectionList = response.data;
 			}else{
 				$scope.connectionList = [{name:response.message}];

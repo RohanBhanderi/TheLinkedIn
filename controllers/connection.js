@@ -82,11 +82,13 @@ getConn=function(req,res){
 					}
 				});
 
-				mysql.queryDb("SELECT userid,CONCAT_WS(' ',firstname,lastname) as name,email from userdetails usr WHERE usr.userid IN (?) UNION SELECT userid, organisationname as name,email from organisation as org where org.userid in (?)",[array,array],function(err,rows){
+//"SELECT userid,CONCAT_WS(' ',firstname,lastname) as name,email from userdetails usr WHERE usr.userid IN (?) UNION SELECT userid, organisationname as name,'' as email from organisation as org where org.userid in (?)"
+				mysql.queryDb("SELECT username as name,'' as email from userauthenticate usr WHERE usr.userid IN (?)",[array],function(err,rows){
 					if(err){
 						console.log("Error while retrieving user connections !!!" + err);
 						res.status(500).json({status : 500,message : "Error while retrieving user connections"});
 					}else{
+						console.log(JSON.stringify(rows));
 						res.status(200).json({status : 200,message:"Successfull", data : rows});
 					}
 				});

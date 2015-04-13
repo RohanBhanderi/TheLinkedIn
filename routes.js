@@ -14,9 +14,6 @@ var loginController = require('./controllers/login'),
 	cache=require('./controllers/cache'),
     posts=require('./controllers/posts');
 
-
-	
-
 module.exports = function (app, passport) {
 
     // Home

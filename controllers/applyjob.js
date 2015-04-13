@@ -2,6 +2,7 @@ var dateutil = require("../util/dateutil");
 var AWS = require("aws-sdk");
 var config = require("./../conf/config.js");
 var moment = require("moment");
+async = require("async");
 
 AWS.config.update({
 	region : config.awsConfig.region,
@@ -22,11 +23,13 @@ getApp = function(id, cb) {
 				"AttributeValueList": [ { "S" : id } ]
  		}			
     },
- 	ProjectionExpression: "title, company, loc, details, created, modified"
+ 	ProjectionExpression: "title, company, details, created, modified"
  }, function(err, data) {
    if (err) {
+   	console.log("dynamo " + err);
      cb(err,data);
    } else {
+   	console.log("dynamo " + JSON.stringify(data));
      cb(null,data);
    }
  });
@@ -37,36 +40,63 @@ getAllApplications = function(req, res) {
 	var userid = req.params.userid;
 	console.log(userid);
 
-	var sql1 = "select jobid from jobapplications where userid ='" + userid + "'";
-	mysql.queryDb(sql1, function(err, rows) {
+	mysql.queryDb("select jobid from jobapplications where userid = ? ", userid, function(err, rows) {
 		if (!err) {
 			if (rows == null || rows == '') {
 				console.log('user not found');
-				res.writeHead(200, {
-					"Content-type" : "application/json"});
+				res.writeHead(200, {"Content-type" : "application/json"});
 				res.end('');
 			} else {
+				var items = [];
+
+				// rows.forEach(function(row){
+				// 	console.log(row.jobid);
+				// 	var id= row.jobid;
+				// 	console.log(id);
+				// 	getApp (id,function(err, data) {
+				//       if (err) {
+				//         console.log(err);
+				//       } else {
+				//       	items.push(data.Items);
+				//       }
+				//     });
+				// });
+
+
+  
+				// 1st para in async.each() is the array of items
+				async.each(rows,
+				  // 2nd param is the function that each item is passed to
+				  function(row, callback){
+				    // Call an asynchronous function, often a save() to DB
+				    // item.someAsyncCall(function (){
+				    //   // Async call is done, alert via callback
+				    //   callback();
+				    // });
+
+				    getApp (row.jobid,function(err, data) {
+				      if (err) {
+				        console.log(err);
+				      } else {
+				      	data.Items.forEach(function(item){
+				      		items.push(item);
+				      	});
+				      	callback();
+				      }
+				    });
+				  },
+				  // 3rd param is the function to call when everything's done
+				  function(err){
+				   console.log(" ITEMS::" + JSON.stringify(items));
+					res.writeHead(200, {"Content-type" : "application/json"});
+					res.end(JSON.stringify(items));
+				  }
+				);
+
 				
-				for(var i=0;i<rows.length;i++)
-					{					
-			        console.log(rows[i].jobid);
-					var id= rows[i].jobid;
-							console.log("In for");			
-						//function for getting job details for particular jobid	
-						console.log(id);
-				getApp (id,function(err, data) {
-						      if (err) {
-						        console.log(err);
-						     
-						      } else {
-						    // res.status(200).json({status : 200,message : "Successfull", response:data.Items});		
-						      console.log(data.Items);
-						      }
-						    });
-					}
-				
-				//res.writeHead(200, {"Content-type" : "application/json"});
-				//res.end(JSON.stringify(rows));
+				// console.log(" ITEMS::" + JSON.stringify(items));
+				// res.writeHead(200, {"Content-type" : "application/json"});
+				// res.end(JSON.stringify(items));
 				//res.end(JSON.stringify(rows.length));
 			}
 		} else {
