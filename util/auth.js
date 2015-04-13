@@ -33,7 +33,7 @@ module.exports = function(passport) {
     },function(email, password, done) {
     	mysql.queryDb('select * from userauthenticate where username = ?',[email],function(err,rows){
         		if(err) {
-    			console.log('use' + err);
+    			console.log('Error while fetching userauthenticate:' + err);
     			return done(err);
     		} else {
     			if(rows==null || rows==''){

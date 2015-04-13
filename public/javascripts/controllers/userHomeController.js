@@ -103,7 +103,9 @@ theLinkedIn.controller("UserHomeController", function($scope, $location, DataSer
 				if($scope.selectedInput.jobid){
 					$scope.$parent.showUserResult = false;
 					$scope.$parent.showJobsResult= true;
+					$rootScope.searcedJobId = $scope.selectedInput.jobid;
 				} else {
+					$rootScope.seconduserid = $scope.selectedInput.userid;
 					$scope.$parent.showUserResult = true;
 					$scope.$parent.showJobsResult= false;
 				}

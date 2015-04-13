@@ -3,14 +3,12 @@ theLinkedIn.controller("ProfileController", function($scope, $rootScope, $modal,
 		$location, DataService) {
 
 	$scope.getAllData = function() {
-		
+		console.log("Getting called");
 		getUserDetails();
 		getEmploymentList();
 		getEducationList();
 		getSkillsList();
 		
-		
-
 		/**
 		 * Getting List of Companies for adding experience 
 		 */

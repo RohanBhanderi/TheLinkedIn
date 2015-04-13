@@ -70,7 +70,7 @@ getAllApplications = function(req, res) {
 				//res.end(JSON.stringify(rows.length));
 			}
 		} else {
-			console.error(e.stack);
+			console.error(err);
 			res.send(500, "Server crashed.");
 		}
 	});

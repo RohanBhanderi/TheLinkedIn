@@ -270,6 +270,7 @@ getJobById = function(req,res){
           console.log(err);
           res.status(500).json({status : 500,message : "Error while deleting job"});
         } else {
+          console.log(JSON.stringify(data.Items));
           res.status(200).json({status : 200,message : "Successfull", response:data.Items});
         }
      });

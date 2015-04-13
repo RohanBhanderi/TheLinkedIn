@@ -6,6 +6,10 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 	 */
 	$scope.getResultData = function(value){
 		$scope.userDetails = value;
+		console.log("seconduserid " + $rootScope.seconduserid);
+		//$scope.seconduserid = $rootScope.seconduserid;
+
+		console.log("scope seconduserid " + $scope.seconduserid);
 		getUserDetails();
 		getEmploymentList();
 		getEducationList();
@@ -17,7 +21,7 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 		
 		var params = {
 			userid : $rootScope.userid,
-			secuserid : $scope.userDetails.userid
+			secuserid : $scope.userDetails.userid //$scope.seconduserid
 		};
 		
 		DataService.postData(urlConstants.CONNECT_USERS,params).success(function(response){
@@ -33,10 +37,11 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 	 * Function to get user profile details
 	 */
 	function getUserDetails(){
-		
-		var uri = urlConstants.GET_USER_DETAILS+$scope.userDetails.userid;
+		console.log("getUserDetails seconduserid " + $scope.userDetails.userid);
+		var uri = urlConstants.GET_USER_DETAILS+$scope.seconduserid;
 		DataService.getData(uri,[]).success(function(response){
 			$scope.userProperties = response.data[0];
+			console.log();
 		}).error(function(err){
 			console.log(err.message);
 		});
@@ -47,7 +52,7 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 	 */
 	function getEmploymentList() {
 		var uriEmployment = urlConstants.GET_EMPLOYMENT_DETAILS
-				+ $scope.userDetails.userid;
+				+ $scope.seconduserid;
 
 		DataService.getData(uriEmployment, []).success(function(response) {
 			$scope.userEmploymentData = response.data;
@@ -61,7 +66,7 @@ theLinkedIn.controller('SearchResultController',function($scope,DataService,$roo
 	 */
 	function getEducationList() {
 		var uriEducation = urlConstants.GET_EDUCATION_DETAILS
-				+ $scope.userDetails.userid;
+				+ $scope.seconduserid;
 		DataService.getData(uriEducation, []).success(function(response) {
 			$scope.userEducationData = response.data;
 		}).error(function(err) {

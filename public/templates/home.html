@@ -50,12 +50,12 @@
 		<div class="col-xs-12 tab-heading">
 			<div class="row">
 				<div class="col-xs-12 col-xs-push-2">
-					<button class="btn btn-link" ng-click="tabActive('profile')">Home</button>
+					<button class="btn btn-link" ng-click="tabActive('home_post')">Home</button>
 					<button class="btn btn-link" ng-click="tabActive('profile')">Profile</button>
 					<button class="btn btn-link" ng-click="tabActive('connection')">Connections</button>
 					<button class="btn btn-link" ng-click="tabActive('education')">Education</button>
 					<button class="btn btn-link" ng-click="tabActive('jobs')">Jobs</button>
-					<button class="btn btn-link" ng-click="tabActive('profile')">Interests</button>
+					<button class="btn btn-link" ng-click="tabActive('jobsApplied')">Applications</button>
 				</div>
 			</div>
 		</div>
@@ -67,8 +67,8 @@
 		<div ng-switch-when="false">
 			<div ng-if="showUserResult" ng-include="'templates/searchProfile.html'"
 				ng-controller="SearchResultController"
-				ng-init="getResultData($parent.$$prevSibling.selectedInput)"></div>
-			<div ng-if="showJobsResult" ng-include="'templates/jobs.html'" ng-controller="JobsCtrl" ng-init="getResultData($parent.$$prevSibling.selectedInput)"></div>
+				ng-init="getResultData($parent.$parent.$$prevSibling.selectedInput)"></div>
+			<div ng-if="showJobsResult" ng-include="'templates/jobsSearchResult.html'" ng-controller="JobsCtrl" ng-init="getResultData($parent.$$prevSibling.selectedInput)"></div>
 		</div>
 	</div>
 </div>

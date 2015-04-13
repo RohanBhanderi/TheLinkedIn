@@ -9,9 +9,11 @@ var loginController = require('./controllers/login'),
 	connectionController = require('./controllers/connection'),
 	jobController = require('./controllers/jobpost'),
 	followController = require('./controllers/follow'),
-	connectionController = require('./controllers/connection');
-	applicationController = require('./controllers/applyjob');
-	cache=require('./controllers/cache');
+	connectionController = require('./controllers/connection'),
+	applicationController = require('./controllers/applyjob'),
+	cache=require('./controllers/cache'),
+    posts=require('./controllers/posts');
+
 
 	
 
@@ -75,6 +77,9 @@ module.exports = function (app, passport) {
     //Elastick beanstalk healthcheck
     app.get('/health',function(req,res){ res.send(200); });
     app.get('/cache',cache.redistrial);
+
+    app.post('/userPost',ensureAuthenticated,posts.savePost);
+    app.get('/userHome/:userid',ensureAuthenticated,posts.userHome);
 
 
     //Auth Middleware

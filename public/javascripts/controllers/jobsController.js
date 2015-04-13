@@ -10,8 +10,20 @@ theLinkedIn.controller("JobsCtrl", function($scope, $rootScope, $modal,
 	 * ng-init for search results
 	 */
 	$scope.getResultData = function(value){
-		$scope.jobSearchDetails = value;
+		$scope.jobid = $rootScope.searcedJobId;
+		console.log("value" +  JSON.stringify($scope.jobid));
 		getJobSearchResult();
+		$rootScope.searcedJobId = null;
+	}
+
+	$scope.getAllAppliedJobs = function(){
+		var uri = urlConstants.GET_ALL_APP+$rootScope.userid;
+		DataService.getData(uri,[]).success(function(response){
+			console.log("Jobs " + response.response);
+			$scope.jobData = response.response;
+		}).error(function(err){
+			console.log(err.message);
+		});
 	}
 
 	/**
@@ -49,6 +61,7 @@ theLinkedIn.controller("JobsCtrl", function($scope, $rootScope, $modal,
 		DataService.postData(urlConstants.POST_APPLICATION, params).success(
 			function(response) {
 				console.log(response);
+				
 			}).error(function(err) {
 				console.log("Error while posting application");
 		});
@@ -72,10 +85,10 @@ theLinkedIn.controller("JobsCtrl", function($scope, $rootScope, $modal,
 	 */
 	function getJobSearchResult() {
 		
-		var uri = urlConstants.GET_JOB_BY_ID+$scope.jobSearchDetails.jobid
+		var uri = urlConstants.GET_JOB_BY_ID+$scope.jobid
 		DataService.getData(uri,[]).success(function(response){
-			console.log("Jobs " + response.result);
-			$scope.jobData = response.result;
+			console.log("Jobs " + response.response);
+			$scope.jobData = response.response;
 		}).error(function(err){
 			console.log(err.message);
 		});

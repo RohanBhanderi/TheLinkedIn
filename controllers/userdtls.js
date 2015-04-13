@@ -167,7 +167,7 @@ getUserDtls=function(req,res){
 			// 	});
 			// });
 			// JSON.stringify(result)
-			//console.log("Result: " + JSON.stringify(result));
+			console.log("Result: " + JSON.stringify(result));
 			res.status(200).json({status:200,data : result });
 		}
 	});
