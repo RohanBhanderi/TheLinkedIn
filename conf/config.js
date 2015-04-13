@@ -10,12 +10,12 @@ exports.db = {
 		// "database" : "cmpe_282",
 		
 		//AWS
-		"host" : "mydb.cwvz0jc9ipyp.us-west-2.rds.amazonaws.com",
+		"host" : 
         "port" : 3306,
 		"user" : "username",
-		"password" : "password1",
+		"password" : 
 		"database" : "cmpe_282",
-		"connectionLimit" : 100
+		"connectionLimit" : 
 
 };
 
@@ -30,7 +30,7 @@ exports.dbPool = {
 * AWS configurations
 */
 exports.awsConfig = {
-	accessKeyId: 'AKIAIEO4Y6ZRTE7WAORQ',
-	secretAccessKey: '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',
+	accessKeyId: '',
+	secretAccessKey: '',
 	region: 'us-west-2'
 };
