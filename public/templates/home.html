@@ -65,9 +65,10 @@
 			<div ng-include="getTemplate()"></div>
 		</div>
 		<div ng-switch-when="false">
-			<div ng-include="'templates/searchProfile.html'"
+			<div ng-if="showUserResult" ng-include="'templates/searchProfile.html'"
 				ng-controller="SearchResultController"
 				ng-init="getResultData($parent.$$prevSibling.selectedInput)"></div>
+			<div ng-if="showJobsResult" ng-include="'templates/jobs.html'" ng-controller="JobsCtrl" ng-init="getResultData($parent.$$prevSibling.selectedInput)"></div>
 		</div>
 	</div>
 </div>

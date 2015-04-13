@@ -68,7 +68,7 @@ module.exports = function (app, passport) {
     app.get('/getapp/:userid', ensureAuthenticated, applicationController.getAllApplications);
     app.post('/postapp', ensureAuthenticated, applicationController.postApplication);
     app.delete('/expirejobs', ensureAuthenticated, jobController.deleteExpiredJob);
-
+    app.get('/getjobById/:jobid',ensureAuthenticated,jobController.getJobById);
     app.get('/getOrgDtls/:userid',ensureAuthenticated,organisationController.getOrgDtls);
     app.put('/saveOrgDtls',ensureAuthenticated,organisationController.saveOrgDtls);
 

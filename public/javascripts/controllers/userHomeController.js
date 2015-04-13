@@ -15,12 +15,28 @@ theLinkedIn.controller("UserHomeController", function($scope, $location, DataSer
 	
 	
 	$scope.searchUserNames = function(){
+		var search = [];
 		DataService.getData(urlConstants.GET_ALL_USERS, []).success(
-				function(response) {
-					$scope.searchInputs = response.data;
-				}).error(function(err) {
-					console.log("Error while fetching search box data");
+			function(response) {
+				$scope.searchInputs = response.data;
+				search = response.data;
+
+				DataService.getData(urlConstants.GET_JOBS,[]).success(function(response){
+					response.result.forEach(function(item){
+						var jobs = {
+							jobid : item.jobid.S,
+							name : item.title.S
+						};
+						search.push(jobs);
+					});
+				$scope.searchInputs = search;	
+				console.log("searchInputs search: " + JSON.stringify(search));
+				}).error(function(err){
+					console.log(err.message);
 				});
+			}).error(function(err) {
+				console.log("Error while fetching search box data");
+			});
 	}
 	
 	$scope.userDropdownSelected = function(optionSelected){
@@ -83,6 +99,15 @@ theLinkedIn.controller("UserHomeController", function($scope, $location, DataSer
 		if($scope.selectedInput){
 			if($scope.selectedInput.name !== $rootScope.userName){
 				$scope.$parent.showTabData = false;
+				console.log("Selected Input: " + JSON.stringify($scope.selectedInput));
+				if($scope.selectedInput.jobid){
+					$scope.$parent.showUserResult = false;
+					$scope.$parent.showJobsResult= true;
+				} else {
+					$scope.$parent.showUserResult = true;
+					$scope.$parent.showJobsResult= false;
+				}
+				console.log("$scope.$parent.showUserResult: " + $scope.$parent.showUserResult);
 			}
 		}
 	}

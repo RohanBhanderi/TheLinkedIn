@@ -30,10 +30,12 @@ var urlConstants = {
 	"DELETE_EDUCATION" : "/edudtls",
 	"DELETE_EMPLOYMENT" : "/expdtls",
 	"GET_JOBS" : "/getjob", 
+	"GET_JOB_BY_ID": "/getjobById/",
 	"POST_JOB" : "/postjob",
 	"DELETE_JOB" : "/deletejob",  
 	"GET_ORG_USER_DETAILS" : "/getOrgDtls/",
-	"UPDATE_ORG_PROFILE" : "/saveOrgDtls"
+	"UPDATE_ORG_PROFILE" : "/saveOrgDtls",
+	"POST_APPLICATION" : "/postapp"
 };
 
 /**

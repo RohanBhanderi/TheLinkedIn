@@ -140,9 +140,7 @@ getJob = function(req,res){
         res.status(200).json({status : 200,message : "Successfull", response:data.Items});
       }
     });
-
 };
-
 
 //function to get all jobs from the dynamodb table
 getAllItems = function(cb) {
@@ -251,9 +249,36 @@ deleteExpiredJob = function(req,res){
     });
 
 };
+
+//function called on posting a new job 
+getJobById = function(req,res){
+  //read request parameters
+  var jobid = req.params.jobid;
+    //call function to insert new job in dynamo db
+      var item = {
+        "TableName": tableName,
+        "KeyConditions" : {
+          "jobid": {
+            "ComparisonOperator": "EQ", 
+            "AttributeValueList": [ { "S" : jobid } ]
+        }     
+      }
+     };
+    
+    db.query(item, function(err, data) {
+       if (err) {
+          console.log(err);
+          res.status(500).json({status : 500,message : "Error while deleting job"});
+        } else {
+          res.status(200).json({status : 200,message : "Successfull", response:data.Items});
+        }
+     });
+    
+};
 exports.deleteExpiredJob=deleteExpiredJob;
 exports.getAllJobs=getAllJobs;
 exports.deleteJob=deleteJob;
 exports.postJob=postJob;
 exports.getJob=getJob;
+exports.getJobById= getJobById;
 
