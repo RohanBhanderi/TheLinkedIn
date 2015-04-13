@@ -28,7 +28,7 @@ exports.userHome = function(req, res) {
 	
 	var profile_id =req.params.userid;
 	
-	mysql.queryDb('select * from posts p where userid=(select userid from following where organisationid=? Union select organisationid from following where userid=?) order by modifydate desc',[profile_id,profile_id],function(err,rows){
+	mysql.queryDb('select a.username as username ,p.postbody as postbody from posts p, userauthenticate a where p.userid in (select userid from following where organisationid=? Union select organisationid from following where userid=?) AND p.userid = a.userid order by p.modifydate desc',[profile_id,profile_id],function(err,rows){
 
 		if(!err){
 			if(rows==null || rows==''){
@@ -63,26 +63,20 @@ exports.savePost = function(req,res){
 	mysql.queryDb('select * from posts where userid=?',[profile_id],function(err,rows){
 
 		if(!err){
-			if(rows==null || rows==''){
-				console.log('no posts dtls');
-				mysql.queryDb('insert into posts set ?',data,function(err,result){
-					if(err) {
-						console.log(err);
-						req.flash('error', 'Unable to save posts for user');
-						res.redirect('/home');
-					} 
-					else {
-						//console.log(result);
-						res.writeHead(200,{"Content-type":"application/json"});
-						res.end(JSON.stringify(result));
-					}
-				});
-			}else{
-				console.error("update before");
-				this.updateUserDtls(req,res);
-			}
+			mysql.queryDb('insert into posts set ?',data,function(err,result){
+				if(err) {
+					console.log(err);
+					res.writeHead(500,{"Content-type":"application/json"});
+					res.end(err);
+				} 
+				else {
+					//console.log(result);
+					res.writeHead(200,{"Content-type":"application/json"});
+					res.end(JSON.stringify(result));
+				}
+			});
 		} else {	
-			console.error(e.stack);
+			console.error(err);
 	        res.send(500, "Server crashed.");
 		}
 	});

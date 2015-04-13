@@ -8,7 +8,8 @@ $scope.home = function(){
         	console.log("success");
         	//window.location = '/home';
         	console.log();
-		$scope.rows=response;
+
+			$scope.rows=response;
 	        console.log(JSON.stringify(response));
 //            
 //            if(response.login == "Success")
@@ -30,6 +31,7 @@ $scope.submitpost=function(){
 		}
 	}).success(function(response){
 		console.log("success");
+		$scope.postbody = "";
 	}).error(function(error){
 	console.log("error");
 	});
