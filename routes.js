@@ -73,7 +73,8 @@ module.exports = function (app, passport) {
 
     //Elastick beanstalk healthcheck
     app.get('/health',function(req,res){ res.send(200); });
-    app.get('/cache',cache.redistrial);
+    //app.get('/cache',cache.redistrial);
+    app.get('/cache',cache.getCachedData);
 
     app.post('/userPost',ensureAuthenticated,posts.savePost);
     app.get('/userHome/:userid',ensureAuthenticated,posts.userHome);

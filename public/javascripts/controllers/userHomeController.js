@@ -16,27 +16,34 @@ theLinkedIn.controller("UserHomeController", function($scope, $location, DataSer
 	
 	$scope.searchUserNames = function(){
 		var search = [];
-		DataService.getData(urlConstants.GET_ALL_USERS, []).success(
-			function(response) {
-				$scope.searchInputs = response.data;
-				search = response.data;
+		// DataService.getData(urlConstants.GET_ALL_USERS, []).success(
+		// 	function(response) {
+		// 		$scope.searchInputs = response.data;
+		// 		search = response.data;
 
-				DataService.getData(urlConstants.GET_JOBS,[]).success(function(response){
-					response.result.forEach(function(item){
-						var jobs = {
-							jobid : item.jobid.S,
-							name : item.title.S
-						};
-						search.push(jobs);
-					});
-				$scope.searchInputs = search;	
-				console.log("searchInputs search: " + JSON.stringify(search));
-				}).error(function(err){
-					console.log(err.message);
-				});
-			}).error(function(err) {
-				console.log("Error while fetching search box data");
-			});
+		// 		DataService.getData(urlConstants.GET_JOBS,[]).success(function(response){
+		// 			response.result.forEach(function(item){
+		// 				var jobs = {
+		// 					jobid : item.jobid.S,
+		// 					name : item.title.S
+		// 				};
+		// 				search.push(jobs);
+		// 			});
+		// 		$scope.searchInputs = search;	
+		// 		console.log("searchInputs search: " + JSON.stringify(search));
+		// 		}).error(function(err){
+		// 			console.log(err.message);
+		// 		});
+		// 	}).error(function(err) {
+		// 		console.log("Error while fetching search box data");
+		// 	});
+		
+		DataService.getData(urlConstants.GET_CACHE, []).success(function(response){
+			$scope.searchInputs = response.data;	
+			console.log("searchInputs search: " + JSON.stringify(response));
+		}).error(function(err) {
+			console.log("Error while fetching search box data");
+		});
 	}
 	
 	$scope.userDropdownSelected = function(optionSelected){

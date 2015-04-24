@@ -49,23 +49,6 @@ updateUserDtls = function(req,res){
 };
 
 getAllUserDtls = function(req, res) {
-	// mysql.queryDb("SELECT userid,CONCAT_WS(' ',firstname,lastname) as name,email from userdetails UNION SELECT userid, organisationname as name,email from organisation",
-	// 	function(err, response) {
-	// 	if (err) {
-	// 		console.log("Error while fetching list of all the users !!!");
-	// 		res.status(500).json({
-	// 			status : 500,
-	// 			message : "Please try again later"
-	// 		});
-	// 	} else {
-	// 		console.log("api/user successfull");
-	// 		res.status(200).json({
-	// 			status : 200,
-	// 			data : response
-	// 		});
-	// 	}
-	// });
-	//-----------------------------
 	var data = [];
 	dynamo.getDBConn().scan({
 	    "TableName": "userdetails",
@@ -105,40 +88,6 @@ getAllUserDtls = function(req, res) {
 			 });
         }
     });
-
-//------------------------
-	// dynamo.getUserItemsProj("userdetails",user.userid,"firstname, lastname, email",function(err,response){
- //        if(err) {
- //            console.log(err);
- //            res.status(500).json({status:500,message : "Please try again later"});
- //        } else {
- //        	response.Items.forEach(function(item){
-	// 			data.push({
-	// 				userid : user.userid,
-	// 				email : item.email,
-	// 				name: item.firstname + ' ' + item.lastname
-	// 			});
-	// 		});
-
-	// 		dynamo.getUserItemsProj("organisation",user.userid,"organisationname, email",function(err,responseOrg){
-	// 	        if(err) {
-	// 	            console.log(err);
-	// 	            res.status(500).json({status:500,message : "Please try again later"});
-	// 	        } else {
-	// 	        	responseOrg.Items.forEach(function(item){
-	// 					data.push({
-	// 						userid : user.userid,
-	// 						email : item.email,
-	// 						name: item.organisationname
-	// 					});
-	// 				});
-	// 	            res.status(200).json({status:200, data:data});
-	// 	        }
-	// 	    });
- //        }
- //    });
-
-	//-----------------------------
 };
 
 getUserDtls=function(req,res){

@@ -143,7 +143,7 @@ getJob = function(req,res){
 };
 
 //function to get all jobs from the dynamodb table
-getAllItems = function(cb) {
+var getAllItems = function(cb) {
 	db.scan({
 		"TableName": tableName,
 		"Limit": 100

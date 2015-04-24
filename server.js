@@ -6,7 +6,8 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     cookieSession = require('cookie-session'),
-    mysql = require('./models/mysql');
+    mysql = require('./models/mysql'),
+    cache = require('./controllers/cache');
 
 var app = express();
 
@@ -38,6 +39,9 @@ app.get('*', function(req, res){
 
 //Connection pool initialization
 mysql.createConnPool();
+
+//PopulateCache
+cache.populateCache();
 
 app.listen(app.get('port'), function() {
     console.log('%s: Node server started on %d ...', Date(Date.now()), app.get('port'));
