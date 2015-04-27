@@ -8,6 +8,5 @@ alter table userauthenticate modify COLUMN lastlogin DATETIME;
 alter table userdetails add column dob varchar(25);
 alter table userdetails modify column summary varchar(250);
 
-
 select * from experience;
 desc userdetails;
