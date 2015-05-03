@@ -6,11 +6,11 @@ addConn = function(req,res){
 	var category = req.body.category;
 	var creationdate = dateutil.now();
 	var data = {
-			userid : userid,
-			organisationid : organisationid,
-			category : category,
-			creationdate:creationdate,
-			modifydate:creationdate
+		userid : userid,
+		organisationid : organisationid,
+		category : category,
+		creationdate:creationdate,
+		modifydate:creationdate
 	};
 
 	mysql.queryDb('insert into following set ?',data,function(err,result){

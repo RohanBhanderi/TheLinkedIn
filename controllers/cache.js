@@ -5,7 +5,7 @@ var db = dynamo.getDBConn();
  * New node file
  */
 var redis = require('redis');
-var client = redis.createClient(config.redisConfig.port,config.redisConfig.host);
+//var client = redis.createClient(config.redisConfig.port,config.redisConfig.host);
 //var client = redis.createClient();
 var data=[{
 	"name":"sambu",

@@ -3,19 +3,19 @@
  */
 exports.db = {
 		// Local
-		// "host" : "localhost",
-		// "port" : 3306,
-		// "user" : "root",
-		// "password" : "",
-		// "database" : "cmpe_282",
+		"host" : "localhost",
+		"port" : 3306,
+		"user" : "root",
+		"password" : "rohan",
+		"database" : "cmpe_282"
 		
 		//AWS
-		"host" : 
-        "port" : 3306,
-		"user" : "username",
-		"password" : 
-		"database" : "cmpe_282",
-		"connectionLimit" : 
+		// "host" : ""
+  //       "port" : 3306,
+		// "user" : "username",
+		// "password" : ""
+		// "database" : "cmpe_282",
+		// "connectionLimit" : 
 
 };
 
@@ -30,9 +30,9 @@ exports.dbPool = {
 * AWS configurations
 */
 exports.awsConfig = {
-	accessKeyId: '',
-	secretAccessKey: '',
-	region: 'us-west-2'
+	accessKeyId: 'AKIAJ3FYGQLIURBVOH4Q',
+	secretAccessKey: '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',
+	region: 'us-west-1'
 };
 
 /*
