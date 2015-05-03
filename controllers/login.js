@@ -63,6 +63,7 @@ exports.register = function(req, res) {
             };
             dynamo.putItem("userdetails",item,function(err,result){
                 if(err) {
+                	  console.log("userdetails problem");
                     console.log(err);
                    res.status(500).json({
                     status : 500,

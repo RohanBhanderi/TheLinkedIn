@@ -37,7 +37,10 @@ var urlConstants = {
 	"UPDATE_ORG_PROFILE" : "/saveOrgDtls",
 	"POST_APPLICATION" : "/postapp",
 	"GET_ALL_APP" : "/getapp/",
-	"GET_CACHE" : "/cache"
+	"GET_CACHE" : "/cache",
+	"GET_USER_RECOMMENDATION" : "/RecommendedUsers/",
+	"GET_JOB_RECOMMENDATION" : "/RecommendedJobs/",
+	"GET_CAREER_PATH" : "/CareerPath/"
 };
 
 /**

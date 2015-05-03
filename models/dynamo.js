@@ -59,6 +59,30 @@ exports.getUserItems = function(tableName, hashkey, cb) {
  });
 };
 
+exports.getJobItems = function(tableName, hashkey, cb) {
+	  var item = {
+	    "TableName": tableName,
+	    "KeyConditions" : {
+	      "jobid": {
+	        "ComparisonOperator": "EQ", 
+	        "AttributeValueList": [ { "S" : hashkey } ]
+	    }     
+	  }
+	 };
+	 console.log("item to fetch: " + JSON.stringify(item));
+	  db.query(item, function(err, data) {
+	   if (err) {
+	     cb(err,data);
+	   } else {
+	     cb(null,data);
+	   }
+	 });
+	};
+
+
+
+
+
 exports.getUserItemsProj = function(tableName, hashkey, proj, cb){
   db.query({
               "TableName": tableName,

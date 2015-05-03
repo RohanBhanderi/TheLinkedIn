@@ -38,12 +38,12 @@ theLinkedIn.controller("UserHomeController", function($scope, $location, DataSer
 		// 		console.log("Error while fetching search box data");
 		// 	});
 		
-		DataService.getData(urlConstants.GET_CACHE, []).success(function(response){
+	/*DataService.getData(urlConstants.GET_CACHE, []).success(function(response){
 			$scope.searchInputs = response.data;	
 			console.log("searchInputs search: " + JSON.stringify(response));
 		}).error(function(err) {
 			console.log("Error while fetching search box data");
-		});
+		});*/
 	}
 	
 	$scope.userDropdownSelected = function(optionSelected){
