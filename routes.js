@@ -12,7 +12,9 @@ var loginController = require('./controllers/login'),
 	connectionController = require('./controllers/connection'),
 	applicationController = require('./controllers/applyjob'),
 	cache=require('./controllers/cache'),
-    posts=require('./controllers/posts');
+    posts=require('./controllers/posts'),
+    userRecoCtrl= require('./controllers/userRecommendation'),
+    jobRecoCtrl= require('./controllers/jobRecommendation');
 
 module.exports = function (app, passport) {
 
@@ -26,6 +28,12 @@ module.exports = function (app, passport) {
     app.post('/login', loginController.checkLogin);
     app.get('/loggedin',loginController.loggedin);
     app.post('/logout', loginController.logout);
+    
+    
+    //Recommendation
+    app.get('/RecommendedUsers/:userid',userRecoCtrl.getRecommendedUsers);
+    app.get('/RecommendedJobs/:userid',jobRecoCtrl.getRecommendedJobs);
+    
     
     // Profile
     //app.get('/profile', ensureAuthenticated, profileController.showProfile);
