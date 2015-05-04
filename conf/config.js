@@ -2,24 +2,19 @@
  * Database Configurations
  */
 exports.db = {
-		// Local
+	/*	// Local
 		 "host" : "localhost",
 		 "port" : 3306,
 		 "user" : "root",
 		 "password" : "GANESH",
 		 "database" : "cmpe_282",
-		
-		/*//AWS
-		"host" : 
+		*/
+		//AWS
+		"host" : "cmpe282rds.csycvfjjat3i.us-west-1.rds.amazonaws.com",
         "port" : 3306,
-		"user" : "username",
-		"password" : 
-		"database" : "cmpe_282",
-		"connectionLimit" : */
-
-		 /**/
-		 
-		 
+		"user" : "cmpe282RDS",
+		"password" : "cmpe282RDS",
+		"database" : "CMPE_282"		 
 };
 
 /*
