@@ -40,7 +40,7 @@ var urlConstants = {
 	"GET_CACHE" : "/cache",
 	"GET_USER_RECOMMENDATION" : "/RecommendedUsers/",
 	"GET_JOB_RECOMMENDATION" : "/RecommendedJobs/",
-	"GET_CAREER_PATH" : "/CareerPath/"
+	"GET_CAREER_PATH" : "/getCareerPath/"
 };
 
 /**

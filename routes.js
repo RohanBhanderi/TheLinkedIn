@@ -14,7 +14,8 @@ var loginController = require('./controllers/login'),
 	cache=require('./controllers/cache'),
     posts=require('./controllers/posts'),
     userRecoCtrl= require('./controllers/userRecommendation'),
-    jobRecoCtrl= require('./controllers/jobRecommendation');
+    jobRecoCtrl= require('./controllers/jobRecommendation'),
+    careerpath= require('./controllers/careerpath');
 
 module.exports = function (app, passport) {
 
@@ -78,6 +79,8 @@ module.exports = function (app, passport) {
     app.get('/getjobById/:jobid',ensureAuthenticated,jobController.getJobById);
     app.get('/getOrgDtls/:userid',ensureAuthenticated,organisationController.getOrgDtls);
     app.put('/saveOrgDtls',ensureAuthenticated,organisationController.saveOrgDtls);
+
+    app.get('/getCareerPath/:position',ensureAuthenticated,careerpath.getCareerPath);
 
     //Elastick beanstalk healthcheck
     app.get('/health',function(req,res){ res.send(200); });

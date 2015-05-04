@@ -42,3 +42,9 @@ exports.redisConfig = {
 	host : 'replica282-001.halkdi.0001.usw2.cache.amazonaws.com',
 	port : '6379'
 }*/
+
+exports.mongoConfig = {
+	accessKeyId: 'AKIAJ3FYGQLIURBVOH4Q',
+	secretAccessKey: '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',
+	region: 'us-west-1'
+};
