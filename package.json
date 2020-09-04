@@ -20,7 +20,7 @@
     "express": "3.x",
     "express-validator": "latest",
     "moment": "^2.9.0",
-    "mongodb": "^2.0.28",
+    "mongodb": "^3.6.1",
     "mysql": "latest",
     "passport": "latest",
     "passport-local": "latest",
